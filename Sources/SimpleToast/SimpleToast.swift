@@ -9,7 +9,7 @@
 import SwiftUI
 
 
-struct ToastOptions {
+public struct ToastOptions {
     var alignment: Alignment = .top
     var delay: TimeInterval? = nil
 }
@@ -44,27 +44,6 @@ struct Toast<ToastContent>: ViewModifier where ToastContent: View {
                 self.content()
                     .offset(x: 0, y: offset.height)
                     .opacity(self.opacity)
-                    /*.gesture(
-                        DragGesture()
-                            .onChanged { amount in
-                                if amount.translation.height < 0 {
-                                    self.offset = amount.translation
-                                    self.opacity = Double(1-(-amount.translation.height / 50))
-                                }
-                                
-                                if self.offset.height < -50 {
-                                    self.hide()
-                                }
-                            }
-                            .onEnded { _ in
-                                if self.showToast {
-                                    withAnimation {
-                                        self.offset.height = 0
-                                        self.opacity = 1
-                                    }
-                                }
-                            }
-                    )*/
             }
             .opacity(showToast ? 1 : 0)
             .gesture(
