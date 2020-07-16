@@ -8,7 +8,6 @@ You decide the content, the library takes care about the rest.
 
 * Custom toast content support: You can show whatever you want inside the toast.
 * Timeout functionality: You decide if and when the toast should disappear.
-* Callback functionality: Run code when the toast disappeared.
 
 ## Installation
 
