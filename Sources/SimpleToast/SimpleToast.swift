@@ -9,21 +9,21 @@
 import SwiftUI
 
 
-public struct ToastOptions {
+public struct SimpleToastOptions {
     var alignment: Alignment = .top
     var delay: TimeInterval? = nil
 }
 
 
-struct Toast<ToastContent>: ViewModifier where ToastContent: View {
+struct SimpleToast<SimpleToastContent>: ViewModifier where SimpleToastContent: View {
     @Binding var showToast: Bool
     
     @State private var timer: Timer? = nil
     @State private var offset = CGSize.zero
     @State private var opacity: Double = 1
     
-    let options: ToastOptions
-    let content: () -> ToastContent
+    let options: SimpleToastOptions
+    let content: () -> SimpleToastContent
     
     func body(content: Content) -> some View {
         if showToast && timer == nil && options.delay != nil {
@@ -69,9 +69,9 @@ struct Toast<ToastContent>: ViewModifier where ToastContent: View {
 }
 
 extension View {
-    func toast<ToastContent>(isShowing: Binding<Bool>, options: ToastOptions, content: @escaping () -> ToastContent) -> some View where ToastContent: View {
+    func simpleToast<SimpleToastContent>(isShowing: Binding<Bool>, options: SimpleToastOptions, content: @escaping () -> SimpleToastContent) -> some View where SimpleToastContent: View {
         self.modifier(
-            Toast(showToast: isShowing, options: options, content: content)
+            SimpleToast(showToast: isShowing, options: options, content: content)
         )
     }
 }
@@ -81,7 +81,7 @@ struct Toast_Previews: PreviewProvider {
         VStack {
             Text("Hello Preview")
         }
-        .toast(isShowing: .constant(true), options: ToastOptions()) {
+        .simpleToast(isShowing: .constant(true), options: SimpleToastOptions()) {
             HStack {
                 Text("Hello Toast")
                     .padding()
