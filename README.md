@@ -4,14 +4,24 @@ SimpleToast is a simple, lightweight and easy to use library to show toasts / po
 
 You decide the content, the library takes care about the rest.
 
-### Features: 
+## Features: 
 
 * Custom toast content support: You can show whatever you want inside the toast.
 * Timeout functionality: You decide if and when the toast should disappear.
 * Callback functionality: Run code when the toast disappeared.
 
+## Installation
 
-### Usage:
+### Swift Package Manager
+
+```
+dependencies: [
+    .package(url: "https://github.com/sanzaru/SimpleToast.git", from: "0.0.1")
+]
+```
+
+
+## Usage:
 
 
 ```swift
@@ -48,7 +58,7 @@ struct ToastTestView: View {
 }
 ```
 
-### Options
+## Options
 
 The toast can be configured via a SimpleToastOptions object. The struct has the following signature:
 
@@ -67,7 +77,7 @@ public struct SimpleToastOptions {
 **backdrop:** Optional parameter to define if the toast is rendered over a backdrop. 
 
 
-### Legal
+## Legal
 
 SwiftUI, Apple and the Apple logo are trademarks of Apple Inc., registered in the U.S. and other countries.
 App Store is a service mark of Apple Inc.
