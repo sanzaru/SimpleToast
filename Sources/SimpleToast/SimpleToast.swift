@@ -1,9 +1,10 @@
 //
-//  Toast.swift
-//  SwiftUI-Playground
+//  SimpleToast.swift
 //
 //  Created by Martin Albrecht on 12.07.20.
 //  Copyright © 2020 Martin Albrecht. All rights reserved.
+//
+//  Licensed under Apache License v2.0
 //
 
 import SwiftUI
@@ -22,7 +23,7 @@ public struct SimpleToastOptions {
 }
 
 
-public struct SimpleToast<SimpleToastContent>: ViewModifier where SimpleToastContent: View {
+struct SimpleToast<SimpleToastContent>: ViewModifier where SimpleToastContent: View {
     @Binding var showToast: Bool
     
     @State private var timer: Timer? = nil
@@ -30,9 +31,10 @@ public struct SimpleToast<SimpleToastContent>: ViewModifier where SimpleToastCon
     @State private var opacity: Double = 1
     
     let options: SimpleToastOptions
+    let completion: (() -> Void)?
     let content: () -> SimpleToastContent
     
-    public func body(content: Content) -> some View {
+    func body(content: Content) -> some View {
         if showToast && timer == nil && options.delay != nil {
             DispatchQueue.main.async {
                 self.timer = Timer.scheduledTimer(withTimeInterval: self.options.delay!, repeats: false) { _ in
@@ -73,30 +75,24 @@ public struct SimpleToast<SimpleToastContent>: ViewModifier where SimpleToastCon
             self.offset = .zero
             self.showToast = false
             self.opacity = 1
-        }
-    }
-}
-
-extension View {
-    public func simpleToast<SimpleToastContent>(isShowing: Binding<Bool>, options: SimpleToastOptions, content: @escaping () -> SimpleToastContent) -> some View where SimpleToastContent: View {
-        self.modifier(
-            SimpleToast(showToast: isShowing, options: options, content: content)
-        )
-    }
-}
-
-struct Toast_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack {
-            Text("Hello Preview")
-        }
-        .simpleToast(isShowing: .constant(true), options: SimpleToastOptions()) {
-            HStack {
-                Text("Hello Toast")
-                    .padding()
-                    .background(Color.red)
-                    .foregroundColor(Color.white)
+            
+            if self.completion != nil {
+                self.completion!()
             }
         }
     }
 }
+
+
+extension View {
+    public func simpleToast<SimpleToastContent>(
+        isShowing: Binding<Bool>, options: SimpleToastOptions,
+        completion: (() -> Void)? = nil,
+        content: @escaping () -> SimpleToastContent) -> some View where SimpleToastContent: View
+    {
+        self.modifier(
+            SimpleToast(showToast: isShowing, options: options, completion: completion, content: content)
+        )
+    }
+}
+
