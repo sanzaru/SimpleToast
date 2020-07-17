@@ -97,9 +97,9 @@ struct ToastTestView: View {
         .cornerRadius(10)
     }
 
-	func onToastComplete() -> Void {
-		print("The toast did disappear")
-	}
+    func onToastComplete() -> Void {
+	print("The toast did disappear")
+    }
 }
 ```
 
