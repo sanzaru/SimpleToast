@@ -4,6 +4,15 @@ SimpleToast is a simple, lightweight and easy to use swift package to show toast
 
 You decide the content, the library takes care about the rest.
 
+## Table of contents
+- [Features:](#features)
+- [Installation](#installation)
+    + [Swift Package Manager](#swift-package-manager)
+    + [Manual](#manual)
+- [Screenshots](#screenshots)
+- [Usage:](#usage)
+- [Options](#options)
+
 ## Features: 
 
 * Custom toast content support: You can show whatever you want inside the toast.
@@ -22,6 +31,11 @@ dependencies: [
 ### Manual
 Simply drag the SimpleToast.swift file into your project.
 
+## Screenshots
+
+| Simple toast | Complex toast |
+| --- | --- |
+| <img src="https://raw.githubusercontent.com/sanzaru/SimpleToast.assets/master/screenshots/toast-simple.png" width="400" alt="Simple toast"> | <img src="https://raw.githubusercontent.com/sanzaru/SimpleToast.assets/master/screenshots/toast-complex.png" width="400" alt="Simple toast"> |
 
 ## Usage:
 
