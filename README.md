@@ -152,6 +152,9 @@ public struct SimpleToastOptions {
 
 ## Changelog
 
+#### v0.0.7
+    - Fixed access level problems
+
 #### v0.0.6
     - New toast animation (slide). Modifier type can now be configured via options
     - Drag gesture added, to swipe the toast away
