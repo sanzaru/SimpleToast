@@ -12,6 +12,7 @@ You decide the content, the library takes care about the rest.
 - [Screenshots](#screenshots)
 - [Usage:](#usage)
 - [Options](#options)
+- [Changelog](#changelog)
 
 ## Features: 
 
@@ -78,7 +79,7 @@ struct ToastTestView: View {
 > **NOTE:** The toast respects the frame of the view it is attached to. Make sure the view has enough room to render the toast. Preferably the view should be attached to the most outer view or the navigation view, if available.
 
 
-To run custom code after the toast did disappear you just simply have to pass the function:
+To run custom code after the toast did disappear you just simply have to pass a function to the completion parameter:
 ```swift
 import SwiftUI
 import SimpleToast
@@ -111,8 +112,9 @@ struct ToastTestView: View {
         .cornerRadius(10)
     }
 
+    // This will be called on toast completion
     func onToastComplete() -> Void {
-	print("The toast did disappear")
+        print("The toast did disappear")
     }
 }
 ```
@@ -129,6 +131,9 @@ public struct SimpleToastOptions {
     var alignment: Alignment = .top
     var delay: TimeInterval? = nil
     var backdrop: Bool? = true
+    var backdropColor: Color = Color.white.opacity(0.9)
+    var animation: Animation = .linear
+    var modifierType: SimpleToastModifierType = .fade
 }
 ```
 
@@ -136,5 +141,36 @@ public struct SimpleToastOptions {
 
 **delay:** Optional parameter to define when the toast disappears. If nil is given the toast won't disappear.
 
-**backdrop:** Optional parameter to define if the toast is rendered over a backdrop. 
+**backdrop:** Optional parameter to define if the toast is rendered over a backdrop.
 
+**backdropColor:** Optional parameter for the backdrop color
+
+**animation:** Optional parameter for the animation type. See [https://developer.apple.com/documentation/swiftui/animation](https://developer.apple.com/documentation/swiftui/animation) for more information.
+
+**modifierType:** Optional parameter for determining the type of toast animation. Possible values(.slide, .fade), default: .fade
+
+
+## Changelog
+
+#### v0.0.6
+    - New toast animation (slide). Modifier type can now be configured via options
+    - Drag gesture added, to swipe the toast away
+    - Customizable backdrop color
+    - Updated readme
+
+#### v0.0.5
+    - Added functionality for completion callback
+    - Minor code fixes
+    - Updated readme
+
+#### v0.0.4
+    - Minor code fixes
+
+#### v0.0.3
+    - Minor code fixes
+
+#### v0.0.2
+    - Minor code fixes
+
+#### v0.0.1
+    - Updated readme
