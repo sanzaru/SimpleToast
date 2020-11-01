@@ -11,12 +11,27 @@ import SwiftUI
 
 
 public struct SimpleToastOptions {
-    var alignment: Alignment = .top
-    var delay: TimeInterval? = nil
-    var backdrop: Bool? = true
-    var backdropColor: Color = Color.white.opacity(0.9)
-    var animation: Animation = .linear
-    var modifierType: SimpleToastModifierType = .fade
+    var alignment: Alignment
+    var delay: TimeInterval?
+    var backdrop: Bool?
+    var backdropColor: Color
+    var animation: Animation
+    var modifierType: SimpleToastModifierType
+    
+    public init(
+        alignment: Alignment = .top,
+        delay: TimeInterval? = nil,
+        backdrop: Bool? = true,
+        backdropColor: Color = Color.white.opacity(0.9),
+        animation: Animation = .linear,
+        modifierType: SimpleToastModifierType = .fade
+    ) {
+        self.alignment = alignment
+        self.delay = delay
+        self.backdrop = backdrop
+        self.animation = animation
+        self.modifierType = modifierType
+    }
 }
 
 
