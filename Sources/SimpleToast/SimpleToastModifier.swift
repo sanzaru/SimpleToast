@@ -11,7 +11,7 @@
 import SwiftUI
 
 
-enum SimpleToastModifierType {
+public enum SimpleToastModifierType {
     case fade, slide
 }
 
@@ -22,11 +22,11 @@ protocol SimpleToastModifier: ViewModifier {
 }
 
 
-struct SimpleToastSlide: SimpleToastModifier {
+public struct SimpleToastSlide: SimpleToastModifier {
     @Binding var showToast: Bool
     var options: SimpleToastOptions?
     
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         content
             .frame(minHeight: 0)
             .frame(maxHeight: showToast ? .none : 0)
@@ -36,11 +36,11 @@ struct SimpleToastSlide: SimpleToastModifier {
 }
 
 
-struct SimpleToastFade: SimpleToastModifier {
+public struct SimpleToastFade: SimpleToastModifier {
     @Binding var showToast: Bool
     var options: SimpleToastOptions?
     
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         content
             .opacity(showToast ? 1 : 0)
             .animation(.linear)

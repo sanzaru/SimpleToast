@@ -29,6 +29,7 @@ public struct SimpleToastOptions {
         self.alignment = alignment
         self.delay = delay
         self.backdrop = backdrop
+        self.backdropColor = backdropColor
         self.animation = animation
         self.modifierType = modifierType
     }
