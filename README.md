@@ -1,5 +1,7 @@
 # SimpleToast for SwiftUI
 
+[![Build Status](https://travis-ci.com/sanzaru/SimpleToast.svg?branch=develop)](https://travis-ci.com/sanzaru/SimpleToast)
+
 SimpleToast is a simple, lightweight and easy to use swift package to show toasts / popup notifications inside your iOS or MacOS application in SwiftUI. 
 
 You decide the content, the library takes care about the rest.
