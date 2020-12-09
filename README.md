@@ -155,7 +155,8 @@ public struct SimpleToastOptions {
 ## Changelog
 
 #### v0.0.8
-    - 
+    - Better slide modifier
+    - New option names - !! breaking change to previous versions !!
 
 #### v0.0.7
     - Fixed access level problems
