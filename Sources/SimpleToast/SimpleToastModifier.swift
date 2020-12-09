@@ -27,11 +27,13 @@ public struct SimpleToastSlide: SimpleToastModifier {
     var options: SimpleToastOptions?
     
     public func body(content: Content) -> some View {
-        content
-            .frame(minHeight: 0)
-            .frame(maxHeight: showToast ? .none : 0)
-            .clipped()
-            .animation(options?.animation)
+        VStack {
+            content
+                .frame(minHeight: 0)
+                .frame(maxHeight: showToast ? .none : 0)
+                .animation(options?.animation)
+        }
+        .clipped()
     }
 }
 

@@ -131,8 +131,8 @@ The struct has the following signature:
 ```swift
 public struct SimpleToastOptions {
     var alignment: Alignment = .top
-    var delay: TimeInterval? = nil
-    var backdrop: Bool? = true
+    var hideAfter: TimeInterval? = nil
+    var showBackdrop: Bool? = true
     var backdropColor: Color = Color.white.opacity(0.9)
     var animation: Animation = .linear
     var modifierType: SimpleToastModifierType = .fade
@@ -141,9 +141,9 @@ public struct SimpleToastOptions {
 
 **alignment:** Defines the alignment of the toast. See [https://developer.apple.com/documentation/swiftui/alignment](https://developer.apple.com/documentation/swiftui/alignment) for more information.
 
-**delay:** Optional parameter to define when the toast disappears. If nil is given the toast won't disappear.
+**hideAfter:** Optional parameter to define when the toast disappears. If nil is given the toast won't disappear.
 
-**backdrop:** Optional parameter to define if the toast is rendered over a backdrop.
+**showBackdrop:** Optional parameter to define if the toast is rendered over a backdrop.
 
 **backdropColor:** Optional parameter for the backdrop color
 
@@ -153,6 +153,9 @@ public struct SimpleToastOptions {
 
 
 ## Changelog
+
+#### v0.0.8
+    - 
 
 #### v0.0.7
     - Fixed access level problems

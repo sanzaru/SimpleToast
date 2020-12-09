@@ -12,23 +12,23 @@ import SwiftUI
 
 public struct SimpleToastOptions {
     var alignment: Alignment
-    var delay: TimeInterval?
-    var backdrop: Bool?
+    var hideAfter: TimeInterval?
+    var showBackdrop: Bool?
     var backdropColor: Color
     var animation: Animation
     var modifierType: SimpleToastModifierType
     
     public init(
         alignment: Alignment = .top,
-        delay: TimeInterval? = nil,
+        hideAfter: TimeInterval? = nil,
         backdrop: Bool? = true,
         backdropColor: Color = Color.white.opacity(0.9),
         animation: Animation = .linear,
         modifierType: SimpleToastModifierType = .fade
     ) {
         self.alignment = alignment
-        self.delay = delay
-        self.backdrop = backdrop
+        self.hideAfter = hideAfter
+        self.showBackdrop = backdrop
         self.backdropColor = backdropColor
         self.animation = animation
         self.modifierType = modifierType
@@ -57,9 +57,9 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
     }
     
     func body(content: Content) -> some View {
-        if showToast && timer == nil && options.delay != nil {
+        if showToast && timer == nil && options.hideAfter != nil {
             DispatchQueue.main.async {
-                self.timer = Timer.scheduledTimer(withTimeInterval: self.options.delay!, repeats: false) { _ in
+                self.timer = Timer.scheduledTimer(withTimeInterval: self.options.hideAfter!, repeats: false) { _ in
                     self.hide()
                 }
             }
@@ -71,7 +71,7 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
                     Group { EmptyView() }
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .background(options.backdropColor.edgesIgnoringSafeArea(.all))
-                        .opacity(options.backdrop != nil && options.backdrop! && showToast ? 1 : 0)
+                        .opacity(options.showBackdrop != nil && options.showBackdrop! && showToast ? 1 : 0)
                         .onTapGesture { self.hide() }
                 )
                 .overlay(
