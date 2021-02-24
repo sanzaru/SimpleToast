@@ -58,14 +58,17 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
     
     func body(content: Content) -> some View {
         if showToast && timer == nil && options.hideAfter != nil {
+            self.timer?.invalidate()
+            
             DispatchQueue.main.async {
                 self.timer = Timer.scheduledTimer(withTimeInterval: self.options.hideAfter!, repeats: false) { _ in
                     self.hide()
                 }
             }
         }
-        
-        return content
+
+        return ZStack(alignment: options.alignment) {
+            content
                 .overlay(
                     // Backdrop
                     Group { EmptyView() }
@@ -73,24 +76,23 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
                         .background(options.backdropColor.edgesIgnoringSafeArea(.all))
                         .opacity(options.showBackdrop != nil && options.showBackdrop! && showToast ? 1 : 0)
                         .onTapGesture { self.hide() }
-                )
-                .overlay(
-                    // Toast Content
-                    VStack {
-                        switch options.modifierType {
-                        case .slide:
-                            self.content()
-                                .modifier(SimpleToastSlide(showToast: $showToast, options: options))
-                        default:
-                            self.content()
-                                .modifier(SimpleToastFade(showToast: $showToast, options: options))
-                        }                        
-                    }
-                    .offset(toastOffset)
-                    .gesture(toastDragGesture)
-            
-                    ,alignment: options.alignment
-                )
+                )            
+
+            // Toast Content
+            if showToast {
+                switch options.modifierType {
+                case .slide:
+                    self.content()
+                        .modifier(SimpleToastSlide(showToast: $showToast, options: options))
+                        .gesture(toastDragGesture)
+                    
+                default:
+                    self.content()
+                        .modifier(SimpleToastFade(showToast: $showToast, options: options))
+                        .gesture(toastDragGesture)
+                }
+            }
+        }
     }
     
     private func hide() {
@@ -110,7 +112,7 @@ extension View {
     public func simpleToast<SimpleToastContent>(
         isShowing: Binding<Bool>, options: SimpleToastOptions,
         completion: (() -> Void)? = nil,
-        content: @escaping () -> SimpleToastContent) -> some View where SimpleToastContent: View
+        @ViewBuilder content: @escaping () -> SimpleToastContent) -> some View where SimpleToastContent: View
     {
         self.modifier(
             SimpleToast(showToast: isShowing, options: options, completion: completion, content: content)

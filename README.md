@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.com/sanzaru/SimpleToast.svg?branch=develop)](https://travis-ci.com/sanzaru/SimpleToast)
 
-SimpleToast is a simple, lightweight and easy to use swift package to show toasts / popup notifications inside your iOS or MacOS application in SwiftUI. 
+SimpleToast is a simple, lightweight and easy to use library to show toasts / popup notifications inside your iOS or MacOS application in SwiftUI.
 
 You decide the content, the library takes care about the rest.
 
@@ -21,6 +21,7 @@ You decide the content, the library takes care about the rest.
 * Custom toast content support: You can show whatever you want inside the toast.
 * Timeout functionality: You decide if and when the toast should disappear.
 * Callback functionality: Run code when the toast disappeared.
+* Multiple animations
 
 ## Installation
 
@@ -153,6 +154,11 @@ public struct SimpleToastOptions {
 
 
 ## Changelog
+
+#### v0.0.9
+	- Better animations and transitions
+	- Better UI integration
+	- Fixed slide modifier
 
 #### v0.0.8
     - Better slide modifier

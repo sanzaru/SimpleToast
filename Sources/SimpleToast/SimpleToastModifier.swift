@@ -25,15 +25,29 @@ protocol SimpleToastModifier: ViewModifier {
 public struct SimpleToastSlide: SimpleToastModifier {
     @Binding var showToast: Bool
     var options: SimpleToastOptions?
+
+    private var transitionEdge: Edge {
+        if let pos = options?.alignment ?? nil {
+            switch pos {
+            case .top, .topLeading, .topTrailing:
+                return .top
+
+            case .bottom, .bottomLeading, .bottom:
+                return .bottom
+
+            default:
+                return .top
+            }
+        }
+
+        return .top
+    }
     
     public func body(content: Content) -> some View {
-        VStack {
-            content
-                .frame(minHeight: 0)
-                .frame(maxHeight: showToast ? .none : 0)
-                .animation(options?.animation)
-        }
-        .clipped()
+        return content
+            .transition(AnyTransition.move(edge: transitionEdge).combined(with: .opacity))
+            .animation(options?.animation ?? .default)
+            .zIndex(1)
     }
 }
 
@@ -44,7 +58,7 @@ public struct SimpleToastFade: SimpleToastModifier {
     
     public func body(content: Content) -> some View {
         content
+            .transition(AnyTransition.opacity.animation(options?.animation ?? .linear))
             .opacity(showToast ? 1 : 0)
-            .animation(.linear)
     }
 }
