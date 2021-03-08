@@ -21,14 +21,14 @@ public struct SimpleToastOptions {
     public init(
         alignment: Alignment = .top,
         hideAfter: TimeInterval? = nil,
-        backdrop: Bool? = true,
+        showBackdrop: Bool? = true,
         backdropColor: Color = Color.white.opacity(0.9),
         animation: Animation = .linear,
         modifierType: SimpleToastModifierType = .fade
     ) {
         self.alignment = alignment
         self.hideAfter = hideAfter
-        self.showBackdrop = backdrop
+        self.showBackdrop = showBackdrop
         self.backdropColor = backdropColor
         self.animation = animation
         self.modifierType = modifierType
@@ -47,12 +47,18 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
     let content: () -> SimpleToastContent
     
     private var toastDragGesture: some Gesture {
-        DragGesture(minimumDistance: 20, coordinateSpace: .local)
-            .onChanged { gesture in
-                self.toastOffset.height = gesture.translation.height
+        DragGesture()
+            .onChanged {
+                if $0.translation.height < self.toastOffset.height {
+                    self.toastOffset = $0.translation
+                }
             }
             .onEnded { _ in
-                self.hide()
+                if self.toastOffset.height <= -20 {
+                    self.hide()
+                }
+                
+                self.toastOffset = .zero
             }
     }
     
@@ -85,6 +91,7 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
                     self.content()
                         .modifier(SimpleToastSlide(showToast: $showToast, options: options))
                         .gesture(toastDragGesture)
+                        .offset(toastOffset)
                     
                 default:
                     self.content()

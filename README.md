@@ -6,6 +6,8 @@ SimpleToast is a simple, lightweight and easy to use library to show toasts / po
 
 You decide the content, the library takes care about the rest.
 
+> ⚠️ **Note:** The current version is still in an early stage. There can be breaking changes in version updates.
+
 ## Table of contents
 - [Features:](#features)
 - [Installation](#installation)
@@ -32,8 +34,14 @@ dependencies: [
 ]
 ```
 
-### Manual
+### Manual installation
 Simply drag the SimpleToast.swift file into your project.
+
+## Demo
+<p align="center">
+	<img src="https://raw.githubusercontent.com/sanzaru/SimpleToast.assets/master/video/SimpleToastDemo-Capsule-Slide.gif" width="300" align="center" alt="Simple toast">
+</p>
+
 
 ## Screenshots
 
@@ -79,7 +87,7 @@ struct ToastTestView: View {
 }
 ```
 
-> **NOTE:** The toast respects the frame of the view it is attached to. Make sure the view has enough room to render the toast. Preferably the view should be attached to the most outer view or the navigation view, if available.
+> **Note:** The toast respects the frame of the view it is attached to. Make sure the view has enough room to render the toast. Preferably the view should be attached to the most outer view or the navigation view, if available.
 
 
 To run custom code after the toast did disappear you just simply have to pass a function to the completion parameter:
@@ -125,9 +133,23 @@ struct ToastTestView: View {
 
 ## Options
 
-The toast can be configured via an optional SimpleToastOptions object. If nil is given the default values are taken. 
+The toast can be configured via an optional SimpleToastOptions object. If nil is given default values are taken. See table below for more information.
 
-The struct has the following signature:
+> &nbsp;<br>
+> 📌 All parameters inside the options are optional.
+> &nbsp;
+
+| Option | Description | Default |
+| -------- | ------------- | -------- |
+| **alignment** | Defines the alignment of the toast. See [https://developer.apple.com/documentation/swiftui/alignment](https://developer.apple.com/documentation/swiftui/alignment) for more information. | .top |
+| **hideAfter** | Defines when the toast disappears. If nil is given the toast won't disappear. | nil |
+| **showBackdrop** | Defines if the toast is rendered over a backdrop. | true |
+| **backdropColor** | Defines the backdrop color |  Color.white.opacity(0.9) |
+| **animation** |  Defines the animation type. See [https://developer.apple.com/documentation/swiftui/animation](https://developer.apple.com/documentation/swiftui/animation) for more information. | .linear |
+| **modifierType** |  Defines the type of toast animation. Possible values(.slide, .fade) | .fade |
+
+
+### The struct has the following signature:
 
 ```swift
 public struct SimpleToastOptions {
@@ -140,25 +162,18 @@ public struct SimpleToastOptions {
 }
 ```
 
-**alignment:** Defines the alignment of the toast. See [https://developer.apple.com/documentation/swiftui/alignment](https://developer.apple.com/documentation/swiftui/alignment) for more information.
-
-**hideAfter:** Optional parameter to define when the toast disappears. If nil is given the toast won't disappear.
-
-**showBackdrop:** Optional parameter to define if the toast is rendered over a backdrop.
-
-**backdropColor:** Optional parameter for the backdrop color
-
-**animation:** Optional parameter for the animation type. See [https://developer.apple.com/documentation/swiftui/animation](https://developer.apple.com/documentation/swiftui/animation) for more information.
-
-**modifierType:** Optional parameter for determining the type of toast animation. Possible values(.slide, .fade), default: .fade
-
 
 ## Changelog
 
+#### v 0.1.0
+    - First minor release
+    - Updated drag gesture for better touch handling
+    - Better options name
+
 #### v0.0.9
-	- Better animations and transitions
-	- Better UI integration
-	- Fixed slide modifier
+    - Better animations and transitions
+    - Better UI integration
+    - Fixed slide modifier
 
 #### v0.0.8
     - Better slide modifier
