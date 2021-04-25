@@ -13,7 +13,7 @@ You decide the content, the library takes care about the rest.
 - [Installation](#installation)
     + [Swift Package Manager](#swift-package-manager)
     + [Manual](#manual)
-- [Screenshots](#screenshots)
+- [Available modifiers](#available-modifiers)
 - [Usage:](#usage)
 - [Options](#options)
 - [Changelog](#changelog)
@@ -24,6 +24,7 @@ You decide the content, the library takes care about the rest.
 * Timeout functionality: You decide if and when the toast should disappear.
 * Callback functionality: Run code when the toast disappeared.
 * Multiple animations
+
 
 ## Installation
 
@@ -37,17 +38,16 @@ dependencies: [
 ### Manual installation
 Simply drag the SimpleToast.swift file into your project.
 
-## Demo
-<p align="center">
-	<img src="https://raw.githubusercontent.com/sanzaru/SimpleToast.assets/master/video/SimpleToastDemo-Capsule-Slide.gif" width="300" align="center" alt="Simple toast">
-</p>
 
+## Available modifiers
+You can choose from one of the following modifiers:
 
-## Screenshots
+| Modifier | Demo |
+| -------- | ---- |
+| *.slide* | <img src="https://raw.githubusercontent.com/sanzaru/SimpleToast.assets/master/video/modifier-slide.gif" width="300" align="center"> |
+| *.fade* | <img src="https://raw.githubusercontent.com/sanzaru/SimpleToast.assets/master/video/modifier-fade.gif" width="300" align="center"> |
+| *.scale* | <img src="https://raw.githubusercontent.com/sanzaru/SimpleToast.assets/master/video/modifier-scale.gif" width="300" align="center"> |
 
-| Simple toast | Complex toast |
-| --- | --- |
-| <img src="https://raw.githubusercontent.com/sanzaru/SimpleToast.assets/master/screenshots/toast-simple.png" width="400" alt="Simple toast"> | <img src="https://raw.githubusercontent.com/sanzaru/SimpleToast.assets/master/screenshots/toast-complex.png" width="400" alt="Simple toast"> |
 
 ## Usage:
 
@@ -165,42 +165,47 @@ public struct SimpleToastOptions {
 
 ## Changelog
 
-#### v 0.1.0
-    - First minor release
-    - Updated drag gesture for better touch handling
-    - Better options name
+#### v0.2.0
+- New modifier (scale)
+- Minor code optimizations
+- Fixed gesture handling
+
+#### v0.1.0
+- First minor release
+- Updated drag gesture for better touch handling
+- Better options name
 
 #### v0.0.9
-    - Better animations and transitions
-    - Better UI integration
-    - Fixed slide modifier
+- Better animations and transitions
+- Better UI integration
+- Fixed slide modifier
 
 #### v0.0.8
-    - Better slide modifier
-    - New option names - !! breaking change to previous versions !!
+- Better slide modifier
+- New option names - !! breaking change to previous versions !!
 
 #### v0.0.7
-    - Fixed access level problems
+- Fixed access level problems
 
 #### v0.0.6
-    - New toast animation (slide). Modifier type can now be configured via options
-    - Drag gesture added, to swipe the toast away
-    - Customizable backdrop color
-    - Updated readme
+- New toast animation (slide). Modifier type can now be configured via options
+- Drag gesture added, to swipe the toast away
+- Customizable backdrop color
+- Updated readme
 
 #### v0.0.5
-    - Added functionality for completion callback
-    - Minor code fixes
-    - Updated readme
+- Added functionality for completion callback
+- Minor code fixes
+- Updated readme
 
 #### v0.0.4
-    - Minor code fixes
+- Minor code fixes
 
 #### v0.0.3
-    - Minor code fixes
+- Minor code fixes
 
 #### v0.0.2
-    - Minor code fixes
+- Minor code fixes
 
 #### v0.0.1
-    - Updated readme
+- Updated readme

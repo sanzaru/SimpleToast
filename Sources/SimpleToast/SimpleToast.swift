@@ -10,32 +10,6 @@
 import SwiftUI
 
 
-public struct SimpleToastOptions {
-    var alignment: Alignment
-    var hideAfter: TimeInterval?
-    var showBackdrop: Bool?
-    var backdropColor: Color
-    var animation: Animation
-    var modifierType: SimpleToastModifierType
-    
-    public init(
-        alignment: Alignment = .top,
-        hideAfter: TimeInterval? = nil,
-        showBackdrop: Bool? = true,
-        backdropColor: Color = Color.white.opacity(0.9),
-        animation: Animation = .linear,
-        modifierType: SimpleToastModifierType = .fade
-    ) {
-        self.alignment = alignment
-        self.hideAfter = hideAfter
-        self.showBackdrop = showBackdrop
-        self.backdropColor = backdropColor
-        self.animation = animation
-        self.modifierType = modifierType
-    }
-}
-
-
 struct SimpleToast<SimpleToastContent: View>: ViewModifier {
     @Binding var showToast: Bool
     
@@ -50,7 +24,7 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
         DragGesture()
             .onChanged {
                 if $0.translation.height < self.toastOffset.height {
-                    self.toastOffset = $0.translation
+                    self.toastOffset.height = $0.translation.height
                 }
             }
             .onEnded { _ in
@@ -63,20 +37,10 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
     }
     
     func body(content: Content) -> some View {
-        if showToast && timer == nil && options.hideAfter != nil {
-            self.timer?.invalidate()
-            
-            DispatchQueue.main.async {
-                self.timer = Timer.scheduledTimer(withTimeInterval: self.options.hideAfter!, repeats: false) { _ in
-                    self.hide()
-                }
-            }
-        }
-
-        return ZStack(alignment: options.alignment) {
+        ZStack(alignment: options.alignment) {
             content
+                // Backdrop
                 .overlay(
-                    // Backdrop
                     Group { EmptyView() }
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .background(options.backdropColor.edgesIgnoringSafeArea(.all))
@@ -92,11 +56,29 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
                         .modifier(SimpleToastSlide(showToast: $showToast, options: options))
                         .gesture(toastDragGesture)
                         .offset(toastOffset)
+
+                case .scale:
+                    self.content()
+                        .modifier(SimpleToastScale(showToast: $showToast, options: options))
+                        .gesture(toastDragGesture)
+                        .onTapGesture { withAnimation { showToast.toggle() } }
+                        .offset(toastOffset)
                     
                 default:
                     self.content()
                         .modifier(SimpleToastFade(showToast: $showToast, options: options))
                         .gesture(toastDragGesture)
+                }
+            }
+        }
+        .onAppear {
+            if showToast && timer == nil && options.hideAfter != nil {
+                self.timer?.invalidate()
+
+                DispatchQueue.main.async {
+                    self.timer = Timer.scheduledTimer(withTimeInterval: self.options.hideAfter!, repeats: false) { _ in
+                        self.hide()
+                    }
                 }
             }
         }

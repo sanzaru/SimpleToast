@@ -1,7 +1,6 @@
 //
 //  SimpleToastModifier.swift
 //  
-//
 //  Created by Martin Albrecht on 17.08.20.
 //  Copyright © 2020 Martin Albrecht. All rights reserved.
 //
@@ -12,7 +11,7 @@ import SwiftUI
 
 
 public enum SimpleToastModifierType {
-    case fade, slide
+    case fade, slide, scale
 }
 
 
@@ -22,7 +21,8 @@ protocol SimpleToastModifier: ViewModifier {
 }
 
 
-public struct SimpleToastSlide: SimpleToastModifier {
+
+struct SimpleToastSlide: SimpleToastModifier {
     @Binding var showToast: Bool
     var options: SimpleToastOptions?
 
@@ -43,7 +43,7 @@ public struct SimpleToastSlide: SimpleToastModifier {
         return .top
     }
     
-    public func body(content: Content) -> some View {
+    func body(content: Content) -> some View {
         return content
             .transition(AnyTransition.move(edge: transitionEdge).combined(with: .opacity))
             .animation(options?.animation ?? .default)
@@ -52,13 +52,25 @@ public struct SimpleToastSlide: SimpleToastModifier {
 }
 
 
-public struct SimpleToastFade: SimpleToastModifier {
+struct SimpleToastFade: SimpleToastModifier {
     @Binding var showToast: Bool
     var options: SimpleToastOptions?
     
-    public func body(content: Content) -> some View {
+    func body(content: Content) -> some View {
         content
             .transition(AnyTransition.opacity.animation(options?.animation ?? .linear))
+            .opacity(showToast ? 1 : 0)
+    }
+}
+
+
+struct SimpleToastScale: SimpleToastModifier {
+    @Binding var showToast: Bool
+    var options: SimpleToastOptions?
+
+    func body(content: Content) -> some View {
+        content
+            .transition(AnyTransition.scale.animation(options?.animation ?? .linear))
             .opacity(showToast ? 1 : 0)
     }
 }
