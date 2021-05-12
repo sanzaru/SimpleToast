@@ -37,7 +37,15 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
     }
     
     func body(content: Content) -> some View {
-        ZStack(alignment: options.alignment) {
+        if showToast && timer == nil && options.hideAfter != nil {
+            DispatchQueue.main.async {
+                self.timer = Timer.scheduledTimer(withTimeInterval: self.options.hideAfter!, repeats: false) { _ in
+                    self.hide()
+                }
+            }
+        }
+
+        return ZStack(alignment: options.alignment) {
             content
                 // Backdrop
                 .overlay(
@@ -49,7 +57,7 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
                 )            
 
             // Toast Content
-            if showToast {
+            if showToast {                
                 switch options.modifierType {
                 case .slide:
                     self.content()
@@ -68,17 +76,6 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
                     self.content()
                         .modifier(SimpleToastFade(showToast: $showToast, options: options))
                         .gesture(toastDragGesture)
-                }
-            }
-        }
-        .onAppear {
-            if showToast && timer == nil && options.hideAfter != nil {
-                self.timer?.invalidate()
-
-                DispatchQueue.main.async {
-                    self.timer = Timer.scheduledTimer(withTimeInterval: self.options.hideAfter!, repeats: false) { _ in
-                        self.hide()
-                    }
                 }
             }
         }
