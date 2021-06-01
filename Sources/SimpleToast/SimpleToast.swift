@@ -14,35 +14,32 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
     @Binding var showToast: Bool
     
     @State private var timer: Timer? = nil    
-    @State private var toastOffset: CGSize = .zero
+    @State private var offset: CGSize = .zero
     
     let options: SimpleToastOptions
     let completion: (() -> Void)?
-    let content: () -> SimpleToastContent
     
-    private var toastDragGesture: some Gesture {
+    @ViewBuilder let content: () -> SimpleToastContent
+    
+    private var dragGesture: some Gesture {
         DragGesture()
-            .onChanged {
-                if $0.translation.height < self.toastOffset.height {
-                    self.toastOffset.height = $0.translation.height
+            .onChanged { [self] in
+                if $0.translation.height < offset.height {
+                    offset.height = $0.translation.height
                 }
             }
-            .onEnded { _ in
-                if self.toastOffset.height <= -20 {
-                    self.hide()
+            .onEnded { [self] _ in
+                if offset.height <= -20 {
+                    hide()
                 }
                 
-                self.toastOffset = .zero
+                offset = .zero
             }
     }
     
     func body(content: Content) -> some View {
-        if showToast && timer == nil && options.hideAfter != nil {
-            DispatchQueue.main.async {
-                self.timer = Timer.scheduledTimer(withTimeInterval: self.options.hideAfter!, repeats: false) { _ in
-                    self.hide()
-                }
-            }
+        if showToast && options.hideAfter != nil {
+            hideAfterTimeout()
         }
 
         return ZStack(alignment: options.alignment) {
@@ -54,7 +51,7 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
                         .background(options.backdropColor.edgesIgnoringSafeArea(.all))
                         .opacity(options.showBackdrop != nil && options.showBackdrop! && showToast ? 1 : 0)
                         .onTapGesture { self.hide() }
-                )            
+                )
 
             // Toast Content
             if showToast {                
@@ -62,33 +59,43 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
                 case .slide:
                     self.content()
                         .modifier(SimpleToastSlide(showToast: $showToast, options: options))
-                        .gesture(toastDragGesture)
-                        .offset(toastOffset)
+                        .gesture(dragGesture)
+                        .offset(offset)
 
                 case .scale:
                     self.content()
                         .modifier(SimpleToastScale(showToast: $showToast, options: options))
-                        .gesture(toastDragGesture)
+                        .gesture(dragGesture)
                         .onTapGesture { withAnimation { showToast.toggle() } }
-                        .offset(toastOffset)
+                        .offset(offset)
                     
                 default:
                     self.content()
                         .modifier(SimpleToastFade(showToast: $showToast, options: options))
-                        .gesture(toastDragGesture)
+                        .gesture(dragGesture)
                 }
+            }
+        }
+    }
+
+
+    private func hideAfterTimeout() {
+        if let timeout = options.hideAfter {
+            DispatchQueue.main.async { [self] in
+                timer?.invalidate()
+                timer = Timer.scheduledTimer(withTimeInterval: timeout, repeats: false, block: { _ in hide() })
             }
         }
     }
     
     private func hide() {
         withAnimation {
-            self.timer?.invalidate()
-            self.timer = nil
-            self.showToast = false
-            self.toastOffset = .zero
+            timer?.invalidate()
+            timer = nil
+            showToast = false
+            offset = .zero
             
-            self.completion?()
+            completion?()
         }
     }
 }
