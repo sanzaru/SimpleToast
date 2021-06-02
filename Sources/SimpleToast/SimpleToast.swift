@@ -19,7 +19,7 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
     let options: SimpleToastOptions
     let completion: (() -> Void)?
     
-    @ViewBuilder let content: () -> SimpleToastContent
+    let content: () -> SimpleToastContent
     
     private var dragGesture: some Gesture {
         DragGesture()
