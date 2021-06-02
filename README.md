@@ -165,6 +165,9 @@ public struct SimpleToastOptions {
 
 ## Changelog
 
+#### v0.2.2
+- Fixed issue #5: Timer not updated on Toast appear
+
 #### v0.2.1
 - Fixed issue #3: Toast won't disappear with timeout set
 
