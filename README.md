@@ -17,6 +17,9 @@ You decide the content, the library takes care about the rest.
     + [Swift Package Manager](#swift-package-manager)
     + [Manual](#manual-installation)
 - [Usage:](#usage)
+    + [Attach via boolean](#attach-via-boolean)
+    + [Attach via optional object](#attach-via-optional-object)
+    + [Run code after dismiss](#run-code-after-dismiss)
 - [Options](#options)
 - [Changelog](#changelog)
 
@@ -53,7 +56,8 @@ dependencies: [
 
 ## Usage:
 
-Simply attach the toast to a view and show it via binding with a 5 sec. delay:
+### Attach via boolean
+Simply attach the toast to a view and show it via binding to Bool with a 5 sec. delay:
 
 ```swift
 import SwiftUI
@@ -67,14 +71,11 @@ struct ToastTestView: View {
     )
 
     VStack(spacing: 20) {
-        Button(
-            action: {
-                withAnimation {
-                    self.showToast.toggle()
-                }
-            },
-            label: { Text("Show toast") }
-        )
+        Button("Show toast") {
+            withAnimation {
+                showToast.toggle()
+            }
+        }
     }
     .simpleToast(isShowing: $showToast, options: toastOptions) {
         HStack {
@@ -92,6 +93,54 @@ struct ToastTestView: View {
 > **Note:** The toast respects the frame of the view it is attached to. Make sure the view has enough room to render the toast. Preferably the toast should be attached to the most outer view or the navigation view, if available.
 
 
+### Attach via optional object
+
+You can trigger the toast via an instance to an optional, which conforms to the protocol Identifiable.
+If the value is non-nil the toast will be shown.
+The following example is based on the previous one and also shows the toast for 5 seconds, but this time based on a value on an item.
+
+```swift
+import SwiftUI
+import SimpleToast
+
+struct ToastTestView: View {
+    @State var showToast: DummyItem? = nil
+
+    private struct DummyItem: Identifiable {
+        var foo: String = "Bar"
+    }
+
+    private let toastOptions = SimpleToastOptions(
+        hideAfter: 5
+    )
+
+    VStack(spacing: 20) {
+        Button("Show toast") {
+            withAnimation {
+                // Toggle the item
+                showToast = showToast == nil ? DummyItem() : nil
+            }
+        }
+    }
+    .simpleToast(item: $showToast, options: toastOptions) {
+        HStack {
+            Image(systemName: "exclamationmark.triangle")
+            Text("This is some simple toast message.")
+        }
+        .padding()
+        .background(Color.red.opacity(0.8))
+        .foregroundColor(Color.white)
+        .cornerRadius(10)
+    }
+}
+```
+
+> &nbsp;<br>
+> ℹ️ This functionality is similar to the one of the SwiftUI [sheet(item:onDismiss:content:)](https://developer.apple.com/documentation/swiftui/view/sheet(item:ondismiss:content:))
+> <br>&nbsp;
+
+### Run code after dismiss
+
 To run custom code after the toast disappeared you just simply have to pass a function to the onDismiss parameter:
 ```swift
 import SwiftUI
@@ -105,14 +154,11 @@ struct ToastTestView: View {
     )
 
     VStack(spacing: 20) {
-        Button(
-            action: {
-                withAnimation {
-                    self.showToast.toggle()
-                }
-            },
-            label: { Text("Show toast") }
-        )
+        Button("Show toast") {
+            withAnimation {
+                showToast.toggle()
+            }
+        }
     }
     .simpleToast(isShowing: $showToast, options: toastOptions, onDismiss: onToastComplete) {
         HStack {
@@ -131,7 +177,6 @@ struct ToastTestView: View {
     }
 }
 ```
-
 
 ## Options
 
