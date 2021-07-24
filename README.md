@@ -1,29 +1,41 @@
 # SimpleToast for SwiftUI
 
 [![Build Status](https://travis-ci.com/sanzaru/SimpleToast.svg?branch=develop)](https://travis-ci.com/sanzaru/SimpleToast)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fsanzaru%2FSimpleToast%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/sanzaru/SimpleToast)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fsanzaru%2FSimpleToast%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/sanzaru/SimpleToast)
 
-SimpleToast is a simple, lightweight and easy to use library to show toasts / popup notifications inside your iOS or MacOS application in SwiftUI.
+SimpleToast is a **simple**, **lightweight** and **easy to use** library to show toasts / popup notifications inside your iOS or MacOS application in SwiftUI.
 
 You decide the content, the library takes care about the rest.
 
-> ⚠️ **Note:** The current version is still in an early stage. There can be breaking changes in version updates.
+> ⚠️ **Note:** The current version is still in an early development stage. There can and will be breaking changes in version updates.
 
 ## Table of contents
 - [Features:](#features)
+- [Demo](#demo)
 - [Installation](#installation)
     + [Swift Package Manager](#swift-package-manager)
-    + [Manual](#manual)
-- [Available modifiers](#available-modifiers)
+    + [Manual](#manual-installation)
 - [Usage:](#usage)
 - [Options](#options)
 - [Changelog](#changelog)
 
-## Features: 
+## Features:
 
 * Custom toast content support: You can show whatever you want inside the toast.
+* Custom positioning: Place the toast where you want it to be.
 * Timeout functionality: You decide if and when the toast should disappear.
 * Callback functionality: Run code when the toast disappeared.
-* Multiple animations
+* Multiple, customizable animations
+
+## Demo
+
+| Modifier | Demo |
+| -------- | ---- |
+| *.slide* | <img src="https://raw.githubusercontent.com/sanzaru/SimpleToast.assets/master/video/modifier-slide.gif" width="300" align="center"> |
+| *.fade* | <img src="https://raw.githubusercontent.com/sanzaru/SimpleToast.assets/master/video/modifier-fade.gif" width="300" align="center"> |
+| *.scale* | <img src="https://raw.githubusercontent.com/sanzaru/SimpleToast.assets/master/video/modifier-scale.gif" width="300" align="center"> |
+
 
 
 ## Installation
@@ -36,18 +48,8 @@ dependencies: [
 ```
 
 ### Manual installation
-Simply drag the SimpleToast.swift file into your project.
 
-
-## Available modifiers
-You can choose from one of the following modifiers:
-
-| Modifier | Demo |
-| -------- | ---- |
-| *.slide* | <img src="https://raw.githubusercontent.com/sanzaru/SimpleToast.assets/master/video/modifier-slide.gif" width="300" align="center"> |
-| *.fade* | <img src="https://raw.githubusercontent.com/sanzaru/SimpleToast.assets/master/video/modifier-fade.gif" width="300" align="center"> |
-| *.scale* | <img src="https://raw.githubusercontent.com/sanzaru/SimpleToast.assets/master/video/modifier-scale.gif" width="300" align="center"> |
-
+> **ℹ️ Manual installation is not advised anymore. Please use the package version instead.**
 
 ## Usage:
 
@@ -61,7 +63,7 @@ struct ToastTestView: View {
     @State var showToast: Bool = false
 
     private let toastOptions = SimpleToastOptions(
-        delay: 5
+        hideAfter: 5
     )
 
     VStack(spacing: 20) {
@@ -77,7 +79,7 @@ struct ToastTestView: View {
     .simpleToast(isShowing: $showToast, options: toastOptions) {
         HStack {
             Image(systemName: "exclamationmark.triangle")
-            Text("This is some simple toast message.")            			
+            Text("This is some simple toast message.")
         }
         .padding()
         .background(Color.red.opacity(0.8))
@@ -87,10 +89,10 @@ struct ToastTestView: View {
 }
 ```
 
-> **Note:** The toast respects the frame of the view it is attached to. Make sure the view has enough room to render the toast. Preferably the view should be attached to the most outer view or the navigation view, if available.
+> **Note:** The toast respects the frame of the view it is attached to. Make sure the view has enough room to render the toast. Preferably the toast should be attached to the most outer view or the navigation view, if available.
 
 
-To run custom code after the toast did disappear you just simply have to pass a function to the completion parameter:
+To run custom code after the toast disappeared you just simply have to pass a function to the onDismiss parameter:
 ```swift
 import SwiftUI
 import SimpleToast
@@ -99,7 +101,7 @@ struct ToastTestView: View {
     @State var showToast: Bool = false
 
     private let toastOptions = SimpleToastOptions(
-        delay: 5
+        hideAfter: 5
     )
 
     VStack(spacing: 20) {
@@ -112,10 +114,10 @@ struct ToastTestView: View {
             label: { Text("Show toast") }
         )
     }
-    .simpleToast(isShowing: $showToast, options: toastOptions, completion: onToastComplete) {
+    .simpleToast(isShowing: $showToast, options: toastOptions, onDismiss: onToastComplete) {
         HStack {
             Image(systemName: "exclamationmark.triangle")
-            Text("This is some simple toast message.")                        
+            Text("This is some simple toast message.")
         }
         .padding()
         .background(Color.red.opacity(0.8))
@@ -133,11 +135,11 @@ struct ToastTestView: View {
 
 ## Options
 
-The toast can be configured via an optional SimpleToastOptions object. If nil is given default values are taken. See table below for more information.
+The toast can be configured via an optional SimpleToastOptions object. You can simply pass an empty object to configure the toast with default values.
 
 > &nbsp;<br>
-> 📌 All parameters inside the options are optional.
-> &nbsp;
+> 📌 All parameters inside the options are optional. If not set, the default value will be taken.
+> <br>&nbsp;
 
 | Option | Description | Default |
 | -------- | ------------- | -------- |
@@ -165,53 +167,4 @@ public struct SimpleToastOptions {
 
 ## Changelog
 
-#### v0.2.2
-- Fixed issue #5: Timer not updated on Toast appear
-
-#### v0.2.1
-- Fixed issue #3: Toast won't disappear with timeout set
-
-#### v0.2.0
-- New modifier (scale)
-- Minor code optimizations
-- Fixed gesture handling
-
-#### v0.1.0
-- First minor release
-- Updated drag gesture for better touch handling
-- Better options name
-
-#### v0.0.9
-- Better animations and transitions
-- Better UI integration
-- Fixed slide modifier
-
-#### v0.0.8
-- Better slide modifier
-- New option names - !! breaking change to previous versions !!
-
-#### v0.0.7
-- Fixed access level problems
-
-#### v0.0.6
-- New toast animation (slide). Modifier type can now be configured via options
-- Drag gesture added, to swipe the toast away
-- Customizable backdrop color
-- Updated readme
-
-#### v0.0.5
-- Added functionality for completion callback
-- Minor code fixes
-- Updated readme
-
-#### v0.0.4
-- Minor code fixes
-
-#### v0.0.3
-- Minor code fixes
-
-#### v0.0.2
-- Minor code fixes
-
-#### v0.0.1
-- Updated readme
+See [CHANGELOG.md](CHANGELOG.md) for a overview of changes
