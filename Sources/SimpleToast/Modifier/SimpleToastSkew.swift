@@ -43,7 +43,7 @@ struct SimpleToastSkew: SimpleToastModifier {
     func body(content: Content) -> some View {
         content
             .transition(
-                .skew
+                AnyTransition.skew
                     .combined(with: .scale(scale: 0, anchor: .top))
                     .animation(options?.animation ?? .linear)
             )
