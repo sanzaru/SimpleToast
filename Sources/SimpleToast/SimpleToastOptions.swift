@@ -2,10 +2,7 @@
 //  SimpleToastOptions.swift
 //
 //  This file is part of the SimpleToast Swift library: https://github.com/sanzaru/SimpleToast
-//
 //  Created by Martin Albrecht on 24.04.21.
-//  Copyright © 2020 Martin Albrecht. All rights reserved.
-//
 //  Licensed under Apache License v2.0
 //
 
@@ -14,15 +11,28 @@ import SwiftUI
 
 /// Object for customizing the SimpleToast
 public struct SimpleToastOptions {
+    /// Alignment of the toast (e.g. .top)
     public var alignment: Alignment
+    
+    /// TimeInterval defining the time after which the toast will be hidden.
+    /// nil is default, which is equivalent to no hiding
     public var hideAfter: TimeInterval?
+    
+    /// Flag determining if the backsdrop is shown
     public var showBackdrop: Bool?
+    
+    /// Color of the backdrop. Will be ignoroed when no backdrop is shown
     public var backdropColor: Color
+    
+    /// Custom animation type
     public var animation: Animation?
+    
+    /// The type of SimpleToast modifier to apply
     public var modifierType: ModifierType
 
+    /// All available modifier types
     public enum ModifierType {
-        case fade, slide, scale
+        case fade, slide, scale, skew
     }
 
     public init(

@@ -2,10 +2,7 @@
 //  SimpleToast.swift
 //
 //  This file is part of the SimpleToast Swift library: https://github.com/sanzaru/SimpleToast
-//
 //  Created by Martin Albrecht on 12.07.20.
-//  Copyright © 2020 Martin Albrecht. All rights reserved.
-//
 //  Licensed under Apache License v2.0
 //
 
@@ -67,13 +64,21 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
                         self.content()
                             .modifier(SimpleToastScale(showToast: $showToast, options: options))
                             .gesture(dragGesture)
-                            .onTapGesture { withAnimation { showToast.toggle() } }
+                            .onTapGesture { showToast = false }
+                            .offset(offset)
+                        
+                    case .skew:
+                        self.content()
+                            .modifier(SimpleToastSkew(showToast: $showToast, options: options))
+                            //.gesture(dragGesture)
+                            .onTapGesture { showToast = false }
                             .offset(offset)
 
                     default:
                         self.content()
                             .modifier(SimpleToastFade(showToast: $showToast, options: options))
                             .gesture(dragGesture)
+                            .onTapGesture { showToast = false }
                     }
                 }
                 .onAppear(perform: dismissAfterTimeout)
@@ -107,7 +112,7 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
 
 // MARK: - View extensions
 
-extension View {
+public extension View {
     /// Present the sheet based on the state of a given binding to a boolean.
     ///
     /// - NOTE: The toast will be attached to the view's frame it is attached to and not the general UIScreen.
@@ -118,7 +123,7 @@ extension View {
     ///   - content: Inner content for the toast
     /// - Returns: The toast view
     @available(*, deprecated, renamed: "simpleToast(isPresented:options:onDismiss:content:)")
-    public func simpleToast<SimpleToastContent: View>(
+    func simpleToast<SimpleToastContent: View>(
         isShowing: Binding<Bool>, options: SimpleToastOptions,
         onDismiss: (() -> Void)? = nil,
         @ViewBuilder content: @escaping () -> SimpleToastContent) -> some View
@@ -138,7 +143,7 @@ extension View {
     ///   - onDismiss: Closure called when the toast is dismissed
     ///   - content: Inner content for the toast
     /// - Returns: The toast view
-    public func simpleToast<SimpleToastContent: View>(
+    func simpleToast<SimpleToastContent: View>(
         isPresented: Binding<Bool>, options: SimpleToastOptions,
         onDismiss: (() -> Void)? = nil,
         @ViewBuilder content: @escaping () -> SimpleToastContent) -> some View
@@ -159,7 +164,7 @@ extension View {
     ///   - onDismiss: Closure called when the toast is dismissed
     ///   - content: Inner content for the toast
     /// - Returns: The toast view
-    public func simpleToast<SimpleToastContent: View, Item: Identifiable>(
+    func simpleToast<SimpleToastContent: View, Item: Identifiable>(
         item: Binding<Item?>?, options: SimpleToastOptions,
         onDismiss: (() -> Void)? = nil,
         @ViewBuilder content: @escaping () -> SimpleToastContent

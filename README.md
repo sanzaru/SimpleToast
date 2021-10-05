@@ -38,6 +38,7 @@ You decide the content, the library takes care about the rest.
 | *.slide* | <img src="https://raw.githubusercontent.com/sanzaru/SimpleToast.assets/master/video/modifier-slide.gif" width="300" align="center"> |
 | *.fade* | <img src="https://raw.githubusercontent.com/sanzaru/SimpleToast.assets/master/video/modifier-fade.gif" width="300" align="center"> |
 | *.scale* | <img src="https://raw.githubusercontent.com/sanzaru/SimpleToast.assets/master/video/modifier-scale.gif" width="300" align="center"> |
+| *.skew* | <img src="https://raw.githubusercontent.com/sanzaru/SimpleToast.assets/master/video/modifier-skew.gif" width="300" align="center"> |
 
 
 
