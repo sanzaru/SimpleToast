@@ -38,52 +38,58 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
     }
     
     func body(content: Content) -> some View {
-        ZStack(alignment: options.alignment) {
-            // Main view content
-            content
-                // Backdrop
-                .overlay(
-                    Group { EmptyView() }
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(options.backdropColor.edgesIgnoringSafeArea(.all))
-                        .opacity(options.showBackdrop != nil && options.showBackdrop! && showToast ? 1 : 0)
-                        .onTapGesture { self.dismiss() }
-                )
-
-            // Toast Content
-            if showToast {
-                Group {
-                    switch options.modifierType {
-                    case .slide:
-                        self.content()
-                            .modifier(SimpleToastSlide(showToast: $showToast, options: options))
-                            .gesture(dragGesture)
-                            .offset(offset)
-
-                    case .scale:
-                        self.content()
-                            .modifier(SimpleToastScale(showToast: $showToast, options: options))
-                            .gesture(dragGesture)
-                            .onTapGesture { showToast = false }
-                            .offset(offset)
-                        
-                    case .skew:
-                        self.content()
-                            .modifier(SimpleToastSkew(showToast: $showToast, options: options))
-                            //.gesture(dragGesture)
-                            .onTapGesture { showToast = false }
-                            .offset(offset)
-
-                    default:
-                        self.content()
-                            .modifier(SimpleToastFade(showToast: $showToast, options: options))
-                            .gesture(dragGesture)
-                            .onTapGesture { showToast = false }
+        // Main view content
+        content
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            
+            // Backdrop
+            .overlay(
+                Group { EmptyView() }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(options.backdropColor.edgesIgnoringSafeArea(.all))
+                    .opacity(options.showBackdrop != nil && options.showBackdrop! && showToast ? 1 : 0)
+                    .onTapGesture { self.dismiss() }
+            )
+        
+            // Toast content
+            .overlay (
+                VStack {
+                    if showToast {
+                        Group {
+                            switch options.modifierType {
+                            case .slide:
+                                self.content()
+                                    .modifier(SimpleToastSlide(showToast: $showToast, options: options))
+                                    .gesture(dragGesture)
+                                    .offset(offset)
+        
+                            case .scale:
+                                self.content()
+                                    .modifier(SimpleToastScale(showToast: $showToast, options: options))
+                                    .gesture(dragGesture)
+                                    .onTapGesture { showToast = false }
+                                    .offset(offset)
+        
+                            case .skew:
+                                self.content()
+                                    .modifier(SimpleToastSkew(showToast: $showToast, options: options))
+                                    //.gesture(dragGesture)
+                                    .onTapGesture { showToast = false }
+                                    .offset(offset)
+        
+                            default:
+                                self.content()
+                                    .modifier(SimpleToastFade(showToast: $showToast, options: options))
+                                    .gesture(dragGesture)
+                                    .onTapGesture { showToast = false }
+                            }
+                        }
+                        .onAppear(perform: dismissAfterTimeout)
                     }
                 }
-                .onAppear(perform: dismissAfterTimeout)
-            }
-        }
+                
+                , alignment: options.alignment
+            )
     }
 
     /// Dismiss the sheet after the timeout specified in the options
