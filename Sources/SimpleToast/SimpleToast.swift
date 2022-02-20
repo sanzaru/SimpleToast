@@ -15,7 +15,7 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
     let options: SimpleToastOptions
     let onDismiss: (() -> Void)?
     
-    @ViewBuilder let content: () -> SimpleToastContent
+    let content: () -> SimpleToastContent
 
     @State private var timer: Timer? = nil
     @State private var offset: CGSize = .zero

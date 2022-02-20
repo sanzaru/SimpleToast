@@ -10,6 +10,10 @@ You decide the content, the library takes care about the rest.
 
 > ⚠️ **Note:** The current version is still in an early development stage. There can and will be breaking changes in version updates.
 
+## 🚨 Breaking changes:
+> **0.5.1:** 
+> * The options struct is modified and the parameters `showBackdrop` and `backdropColor` are replaced by a single optional Color definition `backdrop`. See [Options](#options) for more information
+
 ## Features:
 
 * Custom toast content support: You can show whatever you want inside the toast.
@@ -38,14 +42,15 @@ dependencies: [
 ]
 ```
 
-### Manual installation
-
-> **ℹ️ Manual installation is not advised anymore. Please use the package version instead.**
 
 ## Usage:
 
+There are different ways of attaching a toast notification to your view. The usage is very similar to well know view modifiers (e.g. alert or sheet). If you are familiar with them, using SimpleToast should be quiet easy.
+
+> **Note:** The toast respects the frame of the view it is attached to. Make sure the view has enough room to render the toast. Preferably the toast should be attached to the most outer view or the navigation view, if available.
+
 ### Attach via boolean
-Simply attach the toast to a view and show it via binding to Bool with a 5 sec. delay:
+You can attach the toast to a view and show it via binding to a boolean:
 
 ```swift
 import SwiftUI
@@ -78,14 +83,11 @@ struct ToastTestView: View {
 }
 ```
 
-> **Note:** The toast respects the frame of the view it is attached to. Make sure the view has enough room to render the toast. Preferably the toast should be attached to the most outer view or the navigation view, if available.
-
-
 ### Attach via optional object
 
-You can trigger the toast via an instance to an optional, which conforms to the protocol Identifiable.
-If the value is non-nil the toast will be shown.
-The following example is based on the previous one and also shows the toast for 5 seconds, but this time based on a value on an item.
+You can trigger the toast via an instance to an optional object, which conforms to the protocol Identifiable. If the value is not nil the toast will be shown. 
+
+The following example is based on the previous one and also shows the toast, but this time based on a value on an item.
 
 ```swift
 import SwiftUI
@@ -174,25 +176,10 @@ The toast can be configured via an optional SimpleToastOptions object. You can s
 > 📌 All parameters inside the options are optional. If not set, the default value will be taken.
 > <br>&nbsp;
 
-| Option | Description | Default |
-| -------- | ------------- | -------- |
-| **alignment** | Defines the alignment of the toast. See [https://developer.apple.com/documentation/swiftui/alignment](https://developer.apple.com/documentation/swiftui/alignment) for more information. | .top |
-| **hideAfter** | Defines when the toast disappears. If nil is given the toast won't disappear. | nil |
-| **showBackdrop** | Defines if the toast is rendered over a backdrop. | true |
-| **backdropColor** | Defines the backdrop color |  Color.white.opacity(0.9) |
-| **animation** |  Defines the animation type. See [https://developer.apple.com/documentation/swiftui/animation](https://developer.apple.com/documentation/swiftui/animation) for more information. | .linear |
-| **modifierType** |  Defines the type of toast animation. Possible values(.slide, .fade) | .fade |
-
-
-### The struct has the following signature:
-
-```swift
-public struct SimpleToastOptions {
-    var alignment: Alignment = .top
-    var hideAfter: TimeInterval? = nil
-    var showBackdrop: Bool? = true
-    var backdropColor: Color = Color.white.opacity(0.9)
-    var animation: Animation = .linear
-    var modifierType: SimpleToastModifierType = .fade
-}
-```
+| Option | Type | Description | Default |
+| -------- | ---- | ------------- | -------- |
+| **alignment** | [Alignment](https://developer.apple.com/documentation/swiftui/alignment) | Defines the alignment of the toast. | .top |
+| **hideAfter** | [TimeInterval?](https://developer.apple.com/documentation/foundation/timeinterval) | Defines when the toast disappears. If nil is given the toast won't disappear. | nil |
+| **backdrop** | [Color?](https://developer.apple.com/documentation/swiftui/color) | Defines the backdrop color | nil |
+| **animation** | [Animation](https://developer.apple.com/documentation/swiftui/animation) | Defines the animation type. | .linear |
+| **modifierType** | [ModifierType](#Demo) | Defines the type of toast animation. Possible values(.slide, .fade) | .fade |
