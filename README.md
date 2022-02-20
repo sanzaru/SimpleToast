@@ -10,6 +10,12 @@ You decide the content, the library takes care about the rest.
 
 > ⚠️ **Note:** The current version is still in an early development stage. There can and will be breaking changes in version updates.
 
+<hr>
+
+> ## 🚨 Breaking changes:
+> **0.5.1:** 
+> * The options struct is modified and the parameters `showBackdrop` and `backdropColor` are replaced by a single optional Color definition `backdrop`. See [Options](#options) for more information
+
 ## Features:
 
 * Custom toast content support: You can show whatever you want inside the toast.
