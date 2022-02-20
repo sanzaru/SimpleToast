@@ -19,10 +19,14 @@ public struct SimpleToastOptions {
     public var hideAfter: TimeInterval?
     
     /// Flag determining if the backsdrop is shown
-    public var showBackdrop: Bool?
+    @available(swift, deprecated: 0.5.1, renamed: "backdrop")
+    public var showBackdrop: Bool? = false
     
     /// Color of the backdrop. Will be ignoroed when no backdrop is shown
-    public var backdropColor: Color
+    @available(swift, deprecated: 0.5.1, renamed: "backdrop")
+    public var backdropColor: Color = Color.white
+    
+    public var backdrop: Color?
     
     /// Custom animation type
     public var animation: Animation?
@@ -35,6 +39,7 @@ public struct SimpleToastOptions {
         case fade, slide, scale, skew
     }
 
+    @available(swift, deprecated: 0.5.1, renamed: "init(alignment:hideAfter:backdrop:animation:modifierType:)")
     public init(
         alignment: Alignment = .top,
         hideAfter: TimeInterval? = nil,
@@ -47,6 +52,20 @@ public struct SimpleToastOptions {
         self.hideAfter = hideAfter
         self.showBackdrop = showBackdrop
         self.backdropColor = backdropColor
+        self.animation = animation
+        self.modifierType = modifierType
+    }
+    
+    public init(
+        alignment: Alignment = .top,
+        hideAfter: TimeInterval? = nil,
+        backdrop: Color? = nil,
+        animation: Animation? = nil,
+        modifierType: ModifierType = .fade
+    ) {
+        self.alignment = alignment
+        self.hideAfter = hideAfter
+        self.backdrop = backdrop
         self.animation = animation
         self.modifierType = modifierType
     }

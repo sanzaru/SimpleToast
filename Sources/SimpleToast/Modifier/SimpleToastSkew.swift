@@ -9,7 +9,7 @@
 import SwiftUI
 
 
-struct RotationModifier: ViewModifier {
+fileprivate struct RotationModifier: ViewModifier {
     let amount: Double
     
     func body(content: Content) -> some View {

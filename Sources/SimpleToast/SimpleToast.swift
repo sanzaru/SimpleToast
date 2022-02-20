@@ -14,7 +14,8 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
     
     let options: SimpleToastOptions
     let onDismiss: (() -> Void)?
-    let content: () -> SimpleToastContent
+    
+    @ViewBuilder let content: () -> SimpleToastContent
 
     @State private var timer: Timer? = nil
     @State private var offset: CGSize = .zero
@@ -46,8 +47,8 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
             .overlay(
                 Group { EmptyView() }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(options.backdropColor.edgesIgnoringSafeArea(.all))
-                    .opacity(options.showBackdrop != nil && options.showBackdrop! && showToast ? 1 : 0)
+                    .background(options.backdrop?.edgesIgnoringSafeArea(.all))
+                    .opacity(options.backdrop != nil && showToast ? 1 : 0)
                     .onTapGesture { self.dismiss() }
             )
         
