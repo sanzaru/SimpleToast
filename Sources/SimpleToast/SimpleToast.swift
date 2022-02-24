@@ -49,7 +49,7 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(options.backdrop?.edgesIgnoringSafeArea(.all))
                     .opacity(options.backdrop != nil && showToast ? 1 : 0)
-                    .onTapGesture { self.dismiss() }
+                    .onTapGesture(perform: dismiss)
             )
         
             // Toast content
@@ -62,27 +62,28 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
                                 self.content()
                                     .modifier(SimpleToastSlide(showToast: $showToast, options: options))
                                     .gesture(dragGesture)
+                                    .onTapGesture(perform: dismiss)
                                     .offset(offset)
         
                             case .scale:
                                 self.content()
                                     .modifier(SimpleToastScale(showToast: $showToast, options: options))
                                     .gesture(dragGesture)
-                                    .onTapGesture { showToast = false }
+                                    .onTapGesture(perform: dismiss)
                                     .offset(offset)
         
                             case .skew:
                                 self.content()
                                     .modifier(SimpleToastSkew(showToast: $showToast, options: options))
                                     //.gesture(dragGesture)
-                                    .onTapGesture { showToast = false }
+                                    .onTapGesture(perform: dismiss)
                                     .offset(offset)
         
                             default:
                                 self.content()
                                     .modifier(SimpleToastFade(showToast: $showToast, options: options))
                                     .gesture(dragGesture)
-                                    .onTapGesture { showToast = false }
+                                    .onTapGesture(perform: dismiss)
                             }
                         }
                         .onAppear(perform: dismissAfterTimeout)
