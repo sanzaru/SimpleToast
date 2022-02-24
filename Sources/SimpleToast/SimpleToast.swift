@@ -96,7 +96,7 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
 
     /// Dismiss the sheet after the timeout specified in the options
     private func dismissAfterTimeout() {
-        if let timeout = options.hideAfter, showToast && options.hideAfter != nil {
+        if let timeout = options.hideAfter, showToast, options.hideAfter != nil {
             DispatchQueue.main.async { [self] in
                 timer?.invalidate()
                 timer = Timer.scheduledTimer(withTimeInterval: timeout, repeats: false, block: { _ in dismiss() })
