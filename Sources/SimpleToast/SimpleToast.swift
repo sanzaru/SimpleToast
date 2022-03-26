@@ -8,17 +8,16 @@
 
 import SwiftUI
 
-
 struct SimpleToast<SimpleToastContent: View>: ViewModifier {
     @Binding var showToast: Bool
     
     let options: SimpleToastOptions
     let onDismiss: (() -> Void)?
-    
-    let content: () -> SimpleToastContent
 
     @State private var timer: Timer? = nil
     @State private var offset: CGSize = .zero
+
+    private let toastContent: SimpleToastContent
 
     /// Dimiss the toast on drag
     /// TODO: Needs better implementation.
@@ -36,6 +35,18 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
                 
                 offset = .zero
             }
+    }
+
+    init(
+        showToast: Binding<Bool>,
+        options: SimpleToastOptions,
+        onDismiss: (() -> Void)? = nil,
+        @ViewBuilder content: @escaping () -> SimpleToastContent
+    ) {
+        self._showToast = showToast
+        self.options = options
+        self.onDismiss = onDismiss
+        self.toastContent = content()
     }
     
     func body(content: Content) -> some View {
@@ -59,28 +70,28 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
                         Group {
                             switch options.modifierType {
                             case .slide:
-                                self.content()
+                                toastContent
                                     .modifier(SimpleToastSlide(showToast: $showToast, options: options))
                                     .gesture(dragGesture)
                                     .onTapGesture(perform: dismiss)
                                     .offset(offset)
         
                             case .scale:
-                                self.content()
+                                toastContent
                                     .modifier(SimpleToastScale(showToast: $showToast, options: options))
                                     .gesture(dragGesture)
                                     .onTapGesture(perform: dismiss)
                                     .offset(offset)
         
                             case .skew:
-                                self.content()
+                                toastContent
                                     .modifier(SimpleToastSkew(showToast: $showToast, options: options))
                                     //.gesture(dragGesture)
                                     .onTapGesture(perform: dismiss)
                                     .offset(offset)
         
                             default:
-                                self.content()
+                                toastContent
                                     .modifier(SimpleToastFade(showToast: $showToast, options: options))
                                     .gesture(dragGesture)
                                     .onTapGesture(perform: dismiss)
@@ -116,7 +127,6 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
         }
     }
 }
-
 
 // MARK: - View extensions
 
