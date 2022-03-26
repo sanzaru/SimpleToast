@@ -8,8 +8,7 @@
 
 import SwiftUI
 
-
-/// Object for customizing the SimpleToast
+/// Object for customizing the SimpleToast toast message
 public struct SimpleToastOptions {
     /// Alignment of the toast (e.g. .top)
     public var alignment: Alignment

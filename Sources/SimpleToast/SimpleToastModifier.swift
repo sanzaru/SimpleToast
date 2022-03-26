@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-
 /// Protocol defining the structure of a SimpleToast view modifier
 /// The basic building blocks are a boolean value determining whether to show the toast or not and an instance of a SimpleToastOptions object, which is optional.
 protocol SimpleToastModifier: ViewModifier {

@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-
 fileprivate struct RotationModifier: ViewModifier {
     let amount: Double
     
@@ -16,14 +15,12 @@ fileprivate struct RotationModifier: ViewModifier {
         content
             .rotation3DEffect(
                 Angle(degrees: amount),
-                axis: (x: 1.0, y: 0, z: 0),
+                axis: (x: 1.0, y: 0.01, z: 0.01),
                 anchor: .top,
                 perspective: 1.0
             )
     }
 }
-
-
 
 extension AnyTransition {
     static var skew: AnyTransition {
@@ -34,7 +31,6 @@ extension AnyTransition {
     }
 }
 
-
 /// Modifier for the skewing animation
 struct SimpleToastSkew: SimpleToastModifier {
     @Binding var showToast: Bool
@@ -44,7 +40,7 @@ struct SimpleToastSkew: SimpleToastModifier {
         content
             .transition(
                 AnyTransition.skew
-                    .combined(with: .scale(scale: 0, anchor: .top))
+                    .combined(with: .scale(scale: 0.01, anchor: .top))
                     .animation(options?.animation ?? .linear)
             )
             .zIndex(1)
