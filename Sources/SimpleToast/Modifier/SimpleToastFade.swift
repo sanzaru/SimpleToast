@@ -12,7 +12,7 @@ import SwiftUI
 struct SimpleToastFade: SimpleToastModifier {
     @Binding var showToast: Bool
     let options: SimpleToastOptions?
-    
+
     func body(content: Content) -> some View {
         content
             .transition(AnyTransition.opacity.animation(options?.animation ?? .linear))

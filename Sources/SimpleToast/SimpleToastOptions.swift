@@ -12,24 +12,24 @@ import SwiftUI
 public struct SimpleToastOptions {
     /// Alignment of the toast (e.g. .top)
     public var alignment: Alignment
-    
+
     /// TimeInterval defining the time after which the toast will be hidden.
     /// nil is default, which is equivalent to no hiding
     public var hideAfter: TimeInterval?
-    
+
     /// Flag determining if the backsdrop is shown
     @available(swift, deprecated: 0.5.1, renamed: "backdrop")
     public var showBackdrop: Bool? = false
-    
+
     /// Color of the backdrop. Will be ignoroed when no backdrop is shown
     @available(swift, deprecated: 0.5.1, renamed: "backdrop")
     public var backdropColor: Color = Color.white
-    
+
     public var backdrop: Color?
-    
+
     /// Custom animation type
     public var animation: Animation?
-    
+
     /// The type of SimpleToast modifier to apply
     public var modifierType: ModifierType
 
@@ -54,7 +54,7 @@ public struct SimpleToastOptions {
         self.animation = animation
         self.modifierType = modifierType
     }
-    
+
     public init(
         alignment: Alignment = .top,
         hideAfter: TimeInterval? = nil,

@@ -8,9 +8,9 @@
 
 import SwiftUI
 
-fileprivate struct RotationModifier: ViewModifier {
+private struct RotationModifier: ViewModifier {
     let amount: Double
-    
+
     func body(content: Content) -> some View {
         content
             .rotation3DEffect(
@@ -35,7 +35,7 @@ extension AnyTransition {
 struct SimpleToastSkew: SimpleToastModifier {
     @Binding var showToast: Bool
     let options: SimpleToastOptions?
-    
+
     func body(content: Content) -> some View {
         content
             .transition(

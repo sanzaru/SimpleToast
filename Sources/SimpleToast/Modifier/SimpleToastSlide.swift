@@ -6,7 +6,6 @@
 //  Licensed under Apache License v2.0
 //
 
-
 import SwiftUI
 
 /// Modifier foe the slide animation
@@ -30,7 +29,7 @@ struct SimpleToastSlide: SimpleToastModifier {
 
         return .top
     }
-    
+
     func body(content: Content) -> some View {
         return content
             .transition(AnyTransition.move(edge: transitionEdge).combined(with: .opacity))

@@ -10,11 +10,11 @@ import SwiftUI
 
 struct SimpleToast<SimpleToastContent: View>: ViewModifier {
     @Binding var showToast: Bool
-    
+
     let options: SimpleToastOptions
     let onDismiss: (() -> Void)?
 
-    @State private var timer: Timer? = nil
+    @State private var timer: Timer?
     @State private var offset: CGSize = .zero
 
     private let toastContent: SimpleToastContent
@@ -32,7 +32,7 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
                 if offset.height <= -20 {
                     dismiss()
                 }
-                
+
                 offset = .zero
             }
     }
@@ -48,12 +48,12 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
         self.onDismiss = onDismiss
         self.toastContent = content()
     }
-    
+
     func body(content: Content) -> some View {
         // Main view content
         content
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            
+
             // Backdrop
             .overlay(
                 Group { EmptyView() }
@@ -62,9 +62,9 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
                     .opacity(options.backdrop != nil && showToast ? 1 : 0)
                     .onTapGesture(perform: dismiss)
             )
-        
+
             // Toast content
-            .overlay (
+            .overlay(
                 VStack {
                     if showToast {
                         Group {
@@ -75,21 +75,21 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
                                     .gesture(dragGesture)
                                     .onTapGesture(perform: dismiss)
                                     .offset(offset)
-        
+
                             case .scale:
                                 toastContent
                                     .modifier(SimpleToastScale(showToast: $showToast, options: options))
                                     .gesture(dragGesture)
                                     .onTapGesture(perform: dismiss)
                                     .offset(offset)
-        
+
                             case .skew:
                                 toastContent
                                     .modifier(SimpleToastSkew(showToast: $showToast, options: options))
-                                    //.gesture(dragGesture)
+                                    // .gesture(dragGesture)
                                     .onTapGesture(perform: dismiss)
                                     .offset(offset)
-        
+
                             default:
                                 toastContent
                                     .modifier(SimpleToastFade(showToast: $showToast, options: options))
@@ -99,9 +99,7 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
                         }
                         .onAppear(perform: dismissAfterTimeout)
                     }
-                }
-                
-                , alignment: options.alignment
+                }, alignment: options.alignment
             )
     }
 
@@ -122,7 +120,7 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
             timer = nil
             showToast = false
             offset = .zero
-            
+
             onDismiss?()
         }
     }
@@ -144,13 +142,11 @@ public extension View {
     func simpleToast<SimpleToastContent: View>(
         isShowing: Binding<Bool>, options: SimpleToastOptions,
         onDismiss: (() -> Void)? = nil,
-        @ViewBuilder content: @escaping () -> SimpleToastContent) -> some View
-    {
+        @ViewBuilder content: @escaping () -> SimpleToastContent) -> some View {
         self.modifier(
             SimpleToast(showToast: isShowing, options: options, onDismiss: onDismiss, content: content)
         )
     }
-
 
     /// Present the sheet based on the state of a given binding to a boolean.
     ///
@@ -164,13 +160,11 @@ public extension View {
     func simpleToast<SimpleToastContent: View>(
         isPresented: Binding<Bool>, options: SimpleToastOptions,
         onDismiss: (() -> Void)? = nil,
-        @ViewBuilder content: @escaping () -> SimpleToastContent) -> some View
-    {
+        @ViewBuilder content: @escaping () -> SimpleToastContent) -> some View {
         self.modifier(
             SimpleToast(showToast: isPresented, options: options, onDismiss: onDismiss, content: content)
         )
     }
-
 
     /// Present the sheet based on the state of a given optional item.
     /// If the item is non-nil the toast will be shown, otherwise it is dimissed.
