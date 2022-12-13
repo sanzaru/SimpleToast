@@ -7,7 +7,7 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = 'SimpleToast'
+  s.name             = 'SwiftUI-SimpleToast'
   s.version          = '0.6.2'
   s.summary          = 'SimpleToast is a simple, lightweight, flexible and easy to use library to show toasts / popup notifications in SwiftUI.'
   s.swift_version    = '5.2'
