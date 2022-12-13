@@ -40,6 +40,26 @@ dependencies: [
 ]
 ```
 
+### Cocoapods
+
+Add the following line to your Podfile:
+
+```
+pod 'SwiftUI-SimpleToast', :git => 'https://github.com/sanzaru/SimpleToast.git'
+```
+
+and run
+
+```
+pod install
+```
+
+or 
+
+```
+pod update
+```
+
 ## Usage:
 
 There are different ways of attaching a toast notification to your view. The usage is very similar to well know SwiftUI view modifiers (e.g. alert or sheet). If you are familiar with these, using SimpleToast should be quiet easy.
