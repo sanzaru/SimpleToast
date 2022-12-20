@@ -54,7 +54,7 @@ and run
 pod install
 ```
 
-or 
+or
 
 ```
 pod update
@@ -183,6 +183,19 @@ struct ToastTestView: View {
         print("The toast did disappear")
     }
 }
+```
+
+### Usage with edgesIgnoringSafeArea(_:edges:) / ignoresSafeArea(_:edges:)
+
+If the view you're attaching the toast to is ignoring a safe area, make sure to apply the SimpleToast modifier **after** the modifier for ignoring the safe area:
+
+```swift
+VStack {
+    Text("Some view")
+}
+.ignoresSafeArea(.all)
+.simpleToast(
+    ...
 ```
 
 ## Options
