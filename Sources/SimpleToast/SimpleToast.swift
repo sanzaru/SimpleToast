@@ -95,11 +95,6 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
                         .onTapGesture(perform: dismiss)
                         .offset(offset)
 
-//                case .curtain:
-//                    toastInnerContent
-//                        .modifier(SimpleToastCurtain(showToast: $showToast, options: options))
-//                        .onTapGesture(perform: dismiss)
-
                 default:
                     toastInnerContent
                         .modifier(SimpleToastFade(showToast: $showToast, options: options))
