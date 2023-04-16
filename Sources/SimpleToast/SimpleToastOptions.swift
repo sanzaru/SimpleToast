@@ -59,7 +59,6 @@ public struct SimpleToastOptions {
         self.animation = animation
         self.modifierType = modifierType
         self.dismissOnTap = dismissOnTap
-
     }
 
     public init(
@@ -69,7 +68,6 @@ public struct SimpleToastOptions {
         animation: Animation? = nil,
         modifierType: ModifierType = .fade,
         dismissOnTap: Bool? = true
-
     ) {
         self.alignment = alignment
         self.hideAfter = hideAfter

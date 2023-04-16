@@ -169,7 +169,6 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
             self.dismiss()
         }
     }
-
 }
 
 // MARK: - View extensions

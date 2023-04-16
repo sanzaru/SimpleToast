@@ -212,5 +212,5 @@ The toast can be configured via an optional SimpleToastOptions object. You can s
 | **hideAfter** | [TimeInterval?](https://developer.apple.com/documentation/foundation/timeinterval) | Defines when the toast disappears. If nil is given the toast won't disappear. | nil |
 | **backdrop** | [Color?](https://developer.apple.com/documentation/swiftui/color) | Defines the backdrop color | nil |
 | **animation** | [Animation](https://developer.apple.com/documentation/swiftui/animation) | Defines the animation type. | .linear |
-| **modifierType** | [ModifierType](#Demo) | Defines the type of toast animation. Possible values(.slide, .fade) | .fade |
-| **dismissOnTap** | [dismissOnTap](#Demo) | Defines Close the toast When Tap. Possible values(true, false) | true |
+| **modifierType** | [ModifierType](#Demo) | Defines the type of toast animation. Possible values: .slide, .fade | .fade |
+| **dismissOnTap** | [dismissOnTap] | Defines if the toast closes on tap. Possible values: true, false | true |
