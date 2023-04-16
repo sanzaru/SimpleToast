@@ -33,19 +33,24 @@ public struct SimpleToastOptions {
     /// The type of SimpleToast modifier to apply
     public var modifierType: ModifierType
 
+    /// Flag dismiss on tap
+    public var dismissOnTap: Bool? = false
+
     /// All available modifier types
     public enum ModifierType {
         case fade, slide, scale, skew
     }
 
-    @available(swift, deprecated: 0.5.1, renamed: "init(alignment:hideAfter:backdrop:animation:modifierType:)")
+    @available(swift, deprecated: 0.5.1, renamed: "init(alignment:hideAfter:backdrop:animation:modifierType:dismissOnTap:)")
     public init(
         alignment: Alignment = .top,
         hideAfter: TimeInterval? = nil,
         showBackdrop: Bool? = true,
         backdropColor: Color = Color.white.opacity(0.9),
         animation: Animation? = nil,
-        modifierType: ModifierType = .fade
+        modifierType: ModifierType = .fade,
+        dismissOnTap: Bool? = true
+
     ) {
         self.alignment = alignment
         self.hideAfter = hideAfter
@@ -53,6 +58,8 @@ public struct SimpleToastOptions {
         self.backdropColor = backdropColor
         self.animation = animation
         self.modifierType = modifierType
+        self.dismissOnTap = dismissOnTap
+
     }
 
     public init(
@@ -60,12 +67,16 @@ public struct SimpleToastOptions {
         hideAfter: TimeInterval? = nil,
         backdrop: Color? = nil,
         animation: Animation? = nil,
-        modifierType: ModifierType = .fade
+        modifierType: ModifierType = .fade,
+        dismissOnTap: Bool? = true
+
     ) {
         self.alignment = alignment
         self.hideAfter = hideAfter
         self.backdrop = backdrop
         self.animation = animation
         self.modifierType = modifierType
+        self.dismissOnTap = dismissOnTap
+
     }
 }

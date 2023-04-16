@@ -78,21 +78,21 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
                     toastInnerContent
                         .modifier(SimpleToastSlide(showToast: $showToast, options: options))
                         .gesture(dragGesture)
-                        .onTapGesture(perform: dismiss)
+                        .onTapGesture(perform: dismissOnTap)
                         .offset(offset)
 
                 case .scale:
                     toastInnerContent
                         .modifier(SimpleToastScale(showToast: $showToast, options: options))
                         .gesture(dragGesture)
-                        .onTapGesture(perform: dismiss)
+                        .onTapGesture(perform: dismissOnTap)
                         .offset(offset)
 
                 case .skew:
                     toastInnerContent
                         .modifier(SimpleToastSkew(showToast: $showToast, options: options))
                         // .gesture(dragGesture)
-                        .onTapGesture(perform: dismiss)
+                        .onTapGesture(perform: dismissOnTap)
                         .offset(offset)
 
 //                case .curtain:
@@ -104,7 +104,7 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
                     toastInnerContent
                         .modifier(SimpleToastFade(showToast: $showToast, options: options))
                         .gesture(dragGesture)
-                        .onTapGesture(perform: dismiss)
+                        .onTapGesture(perform: dismissOnTap)
                         .offset(offset)
                 }
             }
@@ -163,6 +163,13 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
             onDismiss?()
         }
     }
+    /// Dismiss the toast Base on dismissOnTap
+    private func dismissOnTap() {
+        if(options.dismissOnTap ?? true){
+            self.dismiss()
+        }
+    }
+
 }
 
 // MARK: - View extensions
