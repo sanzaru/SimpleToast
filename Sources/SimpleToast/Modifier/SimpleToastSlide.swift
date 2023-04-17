@@ -19,7 +19,7 @@ struct SimpleToastSlide: SimpleToastModifier {
             case .top, .topLeading, .topTrailing:
                 return .top
 
-            case .bottom, .bottomLeading, .bottom:
+            case .bottom, .bottomLeading, .bottomTrailing:
                 return .bottom
 
             default:
