@@ -87,15 +87,13 @@ struct ToastTestView: View {
             }
         }
     }
-    .simpleToast(isShowing: $showToast, options: toastOptions) {
-        HStack {
-            Image(systemName: "exclamationmark.triangle")
-            Text("This is some simple toast message.")
-        }
+    .simpleToast(isPresented: $showToast, options: toastOptions) {
+        Label("This is some simple toast message.", systemImage: "exclamationmark.triangle")
         .padding()
         .background(Color.red.opacity(0.8))
         .foregroundColor(Color.white)
         .cornerRadius(10)
+        .padding(.top)
     }
 }
 ```
