@@ -154,7 +154,7 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
 
     /// Dismiss the toast and reset all nessasary parameters
     private func dismiss() {
-        withAnimation {
+        withAnimation(options.animation) {
             timer?.invalidate()
             timer = nil
             showToast = false
