@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct SimpleToast<SimpleToastContent: View>: ViewModifier {
     @Binding var showToast: Bool
@@ -17,6 +18,8 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
     @State private var timer: Timer?
     @State private var offset: CGSize = .zero
     @State private var delta: CGFloat = 0
+    @State private var isInit = false
+    @State private var viewState = false
 
     private let toastInnerContent: SimpleToastContent
 
@@ -78,22 +81,16 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
                     toastInnerContent
                         .modifier(SimpleToastSlide(showToast: $showToast, options: options))
                         .gesture(dragGesture)
-                        .onTapGesture(perform: dismissOnTap)
-                        .offset(offset)
 
                 case .scale:
                     toastInnerContent
                         .modifier(SimpleToastScale(showToast: $showToast, options: options))
                         .gesture(dragGesture)
-                        .onTapGesture(perform: dismissOnTap)
-                        .offset(offset)
 
                 case .skew:
                     toastInnerContent
                         .modifier(SimpleToastSkew(showToast: $showToast, options: options))
                         // .gesture(dragGesture)
-                        .onTapGesture(perform: dismissOnTap)
-                        .offset(offset)
 
 //                case .curtain:
 //                    toastInnerContent
@@ -104,11 +101,13 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
                     toastInnerContent
                         .modifier(SimpleToastFade(showToast: $showToast, options: options))
                         .gesture(dragGesture)
-                        .onTapGesture(perform: dismissOnTap)
-                        .offset(offset)
                 }
             }
-            .onAppear(perform: dismissAfterTimeout)
+            .onTapGesture(perform: dismissOnTap)
+            .onAppear(perform: setup)
+            .onDisappear { isInit = false }
+            .onReceive(Just(showToast), perform: update)
+            .offset(offset)
         }
     }
 
@@ -142,6 +141,29 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
             .overlay(toastRenderContent, alignment: options.alignment)
     }
 
+    /// Initialize the dismiss timer and set init variable
+    private func setup() {
+        dismissAfterTimeout()
+        isInit = true
+    }
+
+    /// Update the dismiss timer if state has changed.
+    ///
+    /// This function is required, because the onAppear will not be triggered again until a full dismissal of the view
+    /// happened. Retriggering the toast resulted in non set timers and thus never disappearing toasts.
+    /// See [the GitHub issue](https://github.com/sanzaru/SimpleToast/issues/24) for more information.
+    private func update(state: Bool) {
+        // We need to keep track of the current view state and only update on changing values. The onReceive modifier
+        // will otherwise constantly trigger updates when the toast is initialized with an Identifiable instead of Bool
+        if state != viewState {
+            viewState = state
+
+            if isInit, viewState {
+                dismissAfterTimeout()
+            }
+        }
+    }
+
     /// Dismiss the sheet after the timeout specified in the options
     private func dismissAfterTimeout() {
         if let timeout = options.hideAfter, showToast, options.hideAfter != nil {
@@ -158,6 +180,7 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
             timer?.invalidate()
             timer = nil
             showToast = false
+            viewState = false
             offset = .zero
 
             onDismiss?()
