@@ -25,6 +25,7 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
 
     private let maxDelta: CGFloat = 20
 
+    #if !os(tvOS)
     /// Dimiss the toast on drag
     private var dragGesture: some Gesture {
         DragGesture()
@@ -71,6 +72,7 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
                 offset = .zero
             }
     }
+    #endif
 
     @ViewBuilder
     private var toastRenderContent: some View {
@@ -80,13 +82,16 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
                 case .slide:
                     toastInnerContent
                         .modifier(SimpleToastSlide(showToast: $showToast, options: options))
+                        #if !os(tvOS)
                         .gesture(dragGesture)
+                        #endif
 
                 case .scale:
                     toastInnerContent
                         .modifier(SimpleToastScale(showToast: $showToast, options: options))
+                        #if !os(tvOS)
                         .gesture(dragGesture)
-
+                        #endif
                 case .skew:
                     toastInnerContent
                         .modifier(SimpleToastSkew(showToast: $showToast, options: options))
@@ -100,7 +105,9 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
                 default:
                     toastInnerContent
                         .modifier(SimpleToastFade(showToast: $showToast, options: options))
+                        #if !os(tvOS)
                         .gesture(dragGesture)
+                        #endif
                 }
             }
             .onTapGesture(perform: dismissOnTap)

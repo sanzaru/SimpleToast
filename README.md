@@ -4,7 +4,7 @@
 [![](https://tinyurl.com/3e9pprjv)](https://swiftpackageindex.com/sanzaru/SimpleToast)
 [![](https://tinyurl.com/mtkte8as)](https://swiftpackageindex.com/sanzaru/SimpleToast)
 
-SimpleToast is a simple, lightweight, flexible and easy to use library to show toasts / popup notifications inside iOS or MacOS applications in SwiftUI. Because of the flexibility to show any content it is also possible to use the library for showing simple modals.
+SimpleToast is a simple, lightweight, flexible and easy to use library to show toasts / popup notifications inside iOS or macOS applications in SwiftUI. Because of the flexibility to show any content it is also possible to use the library for showing simple modals.
 
 You decide the content, the library takes care about the rest.
 
