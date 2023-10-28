@@ -41,6 +41,26 @@ public struct SimpleToastOptions {
         case fade, slide, scale, skew
     }
 
+    public init(
+        alignment: Alignment = .top,
+        hideAfter: TimeInterval? = nil,
+        backdrop: Color? = nil,
+        animation: Animation = .linear,
+        modifierType: ModifierType = .fade,
+        dismissOnTap: Bool? = true
+    ) {
+        self.alignment = alignment
+        self.hideAfter = hideAfter
+        self.backdrop = backdrop
+        self.animation = animation
+        self.modifierType = modifierType
+        self.dismissOnTap = dismissOnTap
+
+    }
+}
+
+// MARK: - Deprecated
+extension SimpleToastOptions {
     @available(swift, deprecated: 0.5.1, renamed: "init(alignment:hideAfter:backdrop:animation:modifierType:dismissOnTap:)")
     public init(
         alignment: Alignment = .top,
@@ -59,22 +79,5 @@ public struct SimpleToastOptions {
         self.animation = animation
         self.modifierType = modifierType
         self.dismissOnTap = dismissOnTap
-    }
-
-    public init(
-        alignment: Alignment = .top,
-        hideAfter: TimeInterval? = nil,
-        backdrop: Color? = nil,
-        animation: Animation? = nil,
-        modifierType: ModifierType = .fade,
-        dismissOnTap: Bool? = true
-    ) {
-        self.alignment = alignment
-        self.hideAfter = hideAfter
-        self.backdrop = backdrop
-        self.animation = animation
-        self.modifierType = modifierType
-        self.dismissOnTap = dismissOnTap
-
     }
 }
