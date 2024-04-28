@@ -23,9 +23,9 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
 
     private let toastInnerContent: SimpleToastContent
 
-    private let maxDelta: CGFloat = 20
-
     #if !os(tvOS)
+    private let maxGestureDelta: CGFloat = 20
+
     /// Dimiss the toast on drag
     private var dragGesture: some Gesture {
         DragGesture()
@@ -65,7 +65,7 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
                 }
             }
             .onEnded { [self] _ in
-                if delta >= maxDelta {
+                if delta >= maxGestureDelta {
                     return dismiss()
                 }
 
