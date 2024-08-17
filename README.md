@@ -1,6 +1,6 @@
 # SimpleToast for SwiftUI
 
-[![Build Status](https://travis-ci.com/sanzaru/SimpleToast.svg?branch=develop)](https://travis-ci.com/sanzaru/SimpleToast)
+[![](https://travis-ci.com/sanzaru/SimpleToast.svg?branch=develop)](https://travis-ci.com/sanzaru/SimpleToast)
 [![](https://tinyurl.com/3e9pprjv)](https://swiftpackageindex.com/sanzaru/SimpleToast)
 [![](https://tinyurl.com/mtkte8as)](https://swiftpackageindex.com/sanzaru/SimpleToast)
 
