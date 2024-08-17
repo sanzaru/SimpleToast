@@ -3,6 +3,7 @@
 [![](https://travis-ci.com/sanzaru/SimpleToast.svg?branch=develop)](https://travis-ci.com/sanzaru/SimpleToast)
 [![](https://tinyurl.com/3e9pprjv)](https://swiftpackageindex.com/sanzaru/SimpleToast)
 [![](https://tinyurl.com/mtkte8as)](https://swiftpackageindex.com/sanzaru/SimpleToast)
+[![Swift](https://github.com/sanzaru/SimpleToast/actions/workflows/swift.yml/badge.svg?branch=master)](https://github.com/sanzaru/SimpleToast/actions/workflows/swift.yml)
 
 SimpleToast is a simple, lightweight, flexible and easy to use library to show toasts / popup notifications inside iOS or macOS applications in SwiftUI. Because of the flexibility to show any content it is also possible to use the library for showing simple modals.
 
