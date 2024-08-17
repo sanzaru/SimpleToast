@@ -157,7 +157,8 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
     /// Update the dismiss timer if state has changed.
     ///
     /// This function is required, because the onAppear will not be triggered again until a full dismissal of the view
-    /// happened. Retriggering the toast resulted in non set timers and thus never disappearing toasts.
+    /// happened. Retriggering the toast resulted in unset timers and thus never disappearing toasts.
+    ///
     /// See [the GitHub issue](https://github.com/sanzaru/SimpleToast/issues/24) for more information.
     private func update(state: Bool) {
         // We need to keep track of the current view state and only update on changing values. The onReceive modifier
@@ -195,7 +196,7 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
     }
     /// Dismiss the toast Base on dismissOnTap
     private func dismissOnTap() {
-        if(options.dismissOnTap ?? true){
+        if options.dismissOnTap ?? true {
             self.dismiss()
         }
     }
