@@ -8,9 +8,9 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SwiftUI-SimpleToast'
-  s.version          = '0.6.2'
+  s.version          = '0.8.1'
   s.summary          = 'SimpleToast is a simple, lightweight, flexible and easy to use library to show toasts / popup notifications in SwiftUI.'
-  s.swift_version    = '5.2'
+  s.swift_version    = '5.7'
   s.description      = <<-DESC
   SimpleToast is a simple, lightweight, flexible and easy to use library to show toasts / popup notifications inside iOS or MacOS applications in SwiftUI. Because of the flexibility to show any content it is also possible to use the library for showing simple modals.
 
