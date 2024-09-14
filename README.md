@@ -1,8 +1,9 @@
 # SimpleToast for SwiftUI
 
-[![Build Status](https://travis-ci.com/sanzaru/SimpleToast.svg?branch=develop)](https://travis-ci.com/sanzaru/SimpleToast)
+[![](https://travis-ci.com/sanzaru/SimpleToast.svg?branch=develop)](https://travis-ci.com/sanzaru/SimpleToast)
 [![](https://tinyurl.com/3e9pprjv)](https://swiftpackageindex.com/sanzaru/SimpleToast)
 [![](https://tinyurl.com/mtkte8as)](https://swiftpackageindex.com/sanzaru/SimpleToast)
+[![Swift](https://github.com/sanzaru/SimpleToast/actions/workflows/swift.yml/badge.svg?branch=master)](https://github.com/sanzaru/SimpleToast/actions/workflows/swift.yml)
 
 SimpleToast is a simple, lightweight, flexible and easy to use library to show toasts / popup notifications inside iOS or macOS applications in SwiftUI. Because of the flexibility to show any content it is also possible to use the library for showing simple modals.
 
@@ -212,3 +213,4 @@ The toast can be configured via an optional SimpleToastOptions object. You can s
 | **animation** | [Animation](https://developer.apple.com/documentation/swiftui/animation) | Defines the animation type. | .linear |
 | **modifierType** | [ModifierType](#Demo) | Defines the type of toast animation. Possible values: .slide, .fade | .fade |
 | **dismissOnTap** | [Bool?](https://developer.apple.com/documentation/swift/bool) | Defines if the toast closes on tap. Possible values: true, false | true |
+| **disableDragGesture** | [Bool](https://developer.apple.com/documentation/swift/bool) | Defines if the toast reacts to drag gestures. Possible values: true, false | false |

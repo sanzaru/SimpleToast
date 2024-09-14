@@ -13,25 +13,14 @@ public struct SimpleToastOptions {
     /// Alignment of the toast (e.g. .top)
     public var alignment: Alignment
 
-    /// TimeInterval defining the time after which the toast will be hidden.
+    /// `TimeInterval` defining the time after which the toast will be hidden.
     /// nil is default, which is equivalent to no hiding
     public var hideAfter: TimeInterval?
-
-    /// Flag determining if the backsdrop is shown
-    @available(swift, deprecated: 0.5.1, renamed: "backdrop")
-    public var showBackdrop: Bool? = false
-
-    /// Color of the backdrop. Will be ignoroed when no backdrop is shown
-    @available(swift, deprecated: 0.5.1, renamed: "backdrop")
-    public var backdropColor: Color = Color.white
 
     public var backdrop: Color?
 
     /// Custom animation type
     public var animation: Animation?
-
-    /// The type of SimpleToast modifier to apply
-    public var modifierType: ModifierType
 
     /// Flag dismiss on tap
     public var dismissOnTap: Bool? = false
@@ -41,13 +30,30 @@ public struct SimpleToastOptions {
         case fade, slide, scale, skew
     }
 
+    /// The type of SimpleToast modifier to apply
+    public var modifierType: ModifierType
+
+    /// Optional drag gesture handling
+    public var disableDragGesture: Bool = false
+
+    // Deprecated
+
+    /// Flag determining if the backsdrop is shown
+    @available(swift, deprecated: 0.5.1, renamed: "backdrop")
+    public var showBackdrop: Bool? = false
+
+    /// Color of the backdrop. Will be ignoroed when no backdrop is shown
+    @available(swift, deprecated: 0.5.1, renamed: "backdrop")
+    public var backdropColor: Color = Color.white
+
     public init(
         alignment: Alignment = .top,
         hideAfter: TimeInterval? = nil,
         backdrop: Color? = nil,
         animation: Animation = .linear,
         modifierType: ModifierType = .fade,
-        dismissOnTap: Bool? = true
+        dismissOnTap: Bool? = true,
+        disableDragGesture: Bool = false
     ) {
         self.alignment = alignment
         self.hideAfter = hideAfter
@@ -55,7 +61,7 @@ public struct SimpleToastOptions {
         self.animation = animation
         self.modifierType = modifierType
         self.dismissOnTap = dismissOnTap
-
+        self.disableDragGesture = disableDragGesture
     }
 }
 
@@ -69,8 +75,8 @@ extension SimpleToastOptions {
         backdropColor: Color = Color.white.opacity(0.9),
         animation: Animation? = nil,
         modifierType: ModifierType = .fade,
-        dismissOnTap: Bool? = true
-
+        dismissOnTap: Bool? = true,
+        disableDragGesture: Bool = false
     ) {
         self.alignment = alignment
         self.hideAfter = hideAfter
@@ -79,5 +85,6 @@ extension SimpleToastOptions {
         self.animation = animation
         self.modifierType = modifierType
         self.dismissOnTap = dismissOnTap
+        self.disableDragGesture = disableDragGesture
     }
 }
