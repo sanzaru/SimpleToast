@@ -213,3 +213,4 @@ The toast can be configured via an optional SimpleToastOptions object. You can s
 | **animation** | [Animation](https://developer.apple.com/documentation/swiftui/animation) | Defines the animation type. | .linear |
 | **modifierType** | [ModifierType](#Demo) | Defines the type of toast animation. Possible values: .slide, .fade | .fade |
 | **dismissOnTap** | [Bool?](https://developer.apple.com/documentation/swift/bool) | Defines if the toast closes on tap. Possible values: true, false | true |
+| **disableDragGesture** | [Bool](https://developer.apple.com/documentation/swift/bool) | Defines if the toast reacts to drag gestures. Possible values: true, false | false |

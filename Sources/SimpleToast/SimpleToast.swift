@@ -17,62 +17,10 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
 
     @State private var timer: Timer?
     @State private var offset: CGSize = .zero
-    @State private var delta: CGFloat = 0
     @State private var isInit = false
     @State private var viewState = false
 
     private let toastInnerContent: SimpleToastContent
-
-    #if !os(tvOS)
-    private let maxGestureDelta: CGFloat = 20
-
-    /// Dimiss the toast on drag
-    private var dragGesture: some Gesture {
-        DragGesture()
-            .onChanged { [self] in
-                delta = 0
-
-                switch options.alignment {
-                case .top, .topLeading, .topTrailing:
-                    if $0.translation.height <= offset.height {
-                        offset.height = $0.translation.height
-                    }
-                    delta += abs(offset.height)
-
-                case .bottom, .bottomLeading, .bottomTrailing:
-                    if $0.translation.height >= offset.height {
-                        offset.height = $0.translation.height
-                    }
-                    delta += abs(offset.height)
-
-                case .leading:
-                    if $0.translation.width <= offset.width {
-                        offset.width = $0.translation.width
-                    }
-                    delta += abs(offset.width)
-
-                case .trailing:
-                    if $0.translation.width >= offset.width {
-                        offset.width = $0.translation.width
-                    }
-                    delta += abs(offset.width)
-
-                default:
-                    if $0.translation.height < offset.height {
-                        offset.height = $0.translation.height
-                    }
-                    delta += abs(offset.height)
-                }
-            }
-            .onEnded { [self] _ in
-                if delta >= maxGestureDelta {
-                    return dismiss()
-                }
-
-                offset = .zero
-            }
-    }
-    #endif
 
     @ViewBuilder
     private var toastRenderContent: some View {
@@ -82,16 +30,13 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
                 case .slide:
                     toastInnerContent
                         .modifier(SimpleToastSlide(showToast: $showToast, options: options))
-                        #if !os(tvOS)
-                        .gesture(dragGesture)
-                        #endif
+                        .modifier(SimpleToastDragGestureModifier(offset: $offset, options: options, onCompletion: dismiss))
 
                 case .scale:
                     toastInnerContent
                         .modifier(SimpleToastScale(showToast: $showToast, options: options))
-                        #if !os(tvOS)
-                        .gesture(dragGesture)
-                        #endif
+                        .modifier(SimpleToastDragGestureModifier(offset: $offset, options: options, onCompletion: dismiss))
+
                 case .skew:
                     toastInnerContent
                         .modifier(SimpleToastSkew(showToast: $showToast, options: options))
@@ -105,9 +50,7 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
                 default:
                     toastInnerContent
                         .modifier(SimpleToastFade(showToast: $showToast, options: options))
-                        #if !os(tvOS)
-                        .gesture(dragGesture)
-                        #endif
+                        .modifier(SimpleToastDragGestureModifier(offset: $offset, options: options, onCompletion: dismiss))
                 }
             }
             .onTapGesture(perform: dismissOnTap)
