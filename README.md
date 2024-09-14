@@ -63,9 +63,9 @@ pod update
 
 ## Usage:
 
-There are different ways of attaching a toast notification to your view. The usage is very similar to well know SwiftUI view modifiers (e.g. alert or sheet). If you are familiar with these, using SimpleToast should be quiet easy.
+There are different ways to attach a toast notification to your views. The usage is similar to well-known SwiftUI view modifiers (e.g., alert or sheet). If you are familiar with these, using SimpleToast will be very straightforward.
 
-> **Note:** The toast always appears at the edges to the view it is attached to. Make sure the view has enough space to render the toast. Preferably the toast should be attached to the most outer view or the navigation view, if available.
+> **Note:** The toast always appears at the edges of the view it is attached to. Ensure the view has enough space to render the toast properly. Preferably, the toast should be attached to the outermost view or the navigation view, if available.
 
 ### Attach via boolean
 You can attach the toast to a view and show it via binding to a boolean:
