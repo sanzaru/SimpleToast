@@ -67,7 +67,7 @@ public struct SimpleToastOptions {
 
 // MARK: - Deprecated
 extension SimpleToastOptions {
-    @available(swift, deprecated: 0.5.1, renamed: "init(alignment:hideAfter:backdrop:animation:modifierType:dismissOnTap:)")
+    @available(*, deprecated, renamed: "init(alignment:hideAfter:backdrop:animation:modifierType:dismissOnTap:disableDragGesture:)")
     public init(
         alignment: Alignment = .top,
         hideAfter: TimeInterval? = nil,
