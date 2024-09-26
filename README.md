@@ -9,7 +9,8 @@ SimpleToast is a simple, lightweight, flexible and easy to use library to show t
 
 You decide the content, the library takes care about the rest.
 
-> **⚠️ Note:** The current version is still in development. There can and will be breaking changes in version updates until version 1.0.
+> [!IMPORTANT]
+> The current version is still in development. There can and will be breaking changes in version updates until version 1.0.
 
 ## Features:
 
@@ -19,9 +20,10 @@ You decide the content, the library takes care about the rest.
 * Callback functionality: Run code when the toast disappeared.
 * Multiple, customizable animations
 
-## 🚨 Breaking changes:
-> **0.6.0:**
-> * The options struct is modified and the parameters `showBackdrop` and `backdropColor` are replaced by a single optional Color definition `backdrop`. See [Options](#options) for more information
+> [!CAUTION]
+> 🚨 Breaking changes:
+> * **0.6.0:**
+>     * The options struct is modified and the parameters `showBackdrop` and `backdropColor` are replaced by a single optional Color definition `backdrop`. See [Options](#options) for more information
 
 ## Demo
 
@@ -65,7 +67,8 @@ pod update
 
 There are different ways to attach a toast notification to your views. The usage is similar to well-known SwiftUI view modifiers (e.g., alert or sheet). If you are familiar with these, using SimpleToast will be very straightforward.
 
-> **Note:** The toast always appears at the edges of the view it is attached to. Ensure the view has enough space to render the toast properly. Preferably, the toast should be attached to the outermost view or the navigation view, if available.
+> [!NOTE]
+> The toast always appears at the edges of the view it is attached to. Ensure the view has enough space to render the toast properly. Preferably, the toast should be attached to the outermost view or the navigation view, if available.
 
 ### Attach via boolean
 You can attach the toast to a view and show it via binding to a boolean:
@@ -141,9 +144,8 @@ struct ToastTestView: View {
 }
 ```
 
-> &nbsp;<br>
-> ℹ️ This functionality is similar to the one of the SwiftUI [sheet(item:onDismiss:content:)](https://developer.apple.com/documentation/swiftui/view/sheet(item:ondismiss:content:))
-> <br>&nbsp;
+> [!TIP]
+> This functionality is similar to the one of the SwiftUI [sheet(item:onDismiss:content:)](https://developer.apple.com/documentation/swiftui/view/sheet(item:ondismiss:content:))
 
 ### Run code after dismissal
 
