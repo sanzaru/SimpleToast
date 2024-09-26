@@ -48,7 +48,7 @@ dependencies: [
 Add the following line to your Podfile:
 
 ```
-pod 'SwiftUI-SimpleToast', :git => 'https://github.com/sanzaru/SimpleToast.git'
+pod 'SwiftUI-SimpleToast', '~> 0.6.2'
 ```
 
 and run
