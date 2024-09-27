@@ -4,6 +4,7 @@ There are different ways to attach a toast notification to your views. The usage
 
 > [!NOTE]
 > The toast always appears at the edges of the view it is attached to. Ensure the view has enough space to render the toast properly. Preferably, the toast should be attached to the outermost view or the navigation view, if available.
+> Sheets need their own notification handler as they overlap all content.
 
 ### Attach via boolean
 You can attach the toast to a view and show it via binding to a boolean:
