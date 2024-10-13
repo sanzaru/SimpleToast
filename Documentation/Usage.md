@@ -1,9 +1,11 @@
 # SimpleToast Usage
 
-There are different ways to attach a toast notification to your views. The basic usage is similar to well-known SwiftUI view modifiers (e.g., alert or sheet). If you are familiar with these, using SimpleToast will be very straightforward.
+There are different ways to attach a toast notification to your views. The basic usage is similar to well-known SwiftUI
+view modifiers (e.g., alert or sheet). If you are familiar with these, using SimpleToast will be very straightforward.
 
 > [!NOTE]
-> The toast always appears at the edges of the view it is attached to. Ensure the view has enough space to render the toast properly. Preferably, the toast should be attached to the outermost view or the navigation view, if available.
+> The toast always appears at the edges of the view it is attached to. Ensure the view has enough space to render the
+> toast properly. Preferably, the toast should be attached to the outermost view or the navigation view, if available.
 >
 > ⚠️ Sheets need their own notification handler as they overlap all content.
 
@@ -13,7 +15,7 @@ There are different ways to attach a toast notification to your views. The basic
   - [Attach via optional object](#attach-via-optional-object)
   - [Run code after dismissal](#run-code-after-dismissal)
   - [Using the SimpleToastNotificationPublisher](#using-the-simpletoastnotificationpublisher)
-  - [Usage with edgesIgnoringSafeArea(_:edges:) / ignoresSafeArea(_:edges:)](#usage-with-edgesignoringsafeareaedges--ignoressafeareaedges)
+  - [Usage with `edgesIgnoringSafeArea(_:edges:)` / `ignoresSafeArea(_:edges:)`](#usage-with-edgesignoringsafearea_edges--ignoressafearea_edges)
 
 
 ## Attach via boolean
@@ -52,7 +54,8 @@ struct ToastTestView: View {
 
 ## Attach via optional object
 
-You can trigger the toast via an instance to an optional object, which conforms to the protocol Identifiable. If the value is not nil the toast will be shown.
+You can trigger the toast via an instance to an optional object, which conforms to the protocol Identifiable. If the
+value is not nil the toast will be shown.
 
 The following example is based on the previous one and also shows the toast, but this time based on a value on an item.
 
@@ -136,11 +139,14 @@ struct ToastTestView: View {
 
 ## Using the SimpleToastNotificationPublisher
 
-The `SimpleToastNotificationPublisher` provides a convenient way to trigger toast notifications throughout your app. A typical example would be using the `NavigationSplitView`, where you can trigger notifications inside the sidebar view and display them in the details view.
+The `SimpleToastNotificationPublisher` provides a convenient way to trigger toast notifications throughout your app.
+A typical example would be using the `NavigationSplitView`, where you can trigger notifications inside the sidebar view
+and display them in the details view.
 
-To use the `SimpleToastNotificationPublisher` for your toast notifications, you first need to create a data structure that conforms to the `Identifiable` protocol.
+To use the `SimpleToastNotificationPublisher` for your toast notifications, you first need to create a data structure
+that conforms to the `Identifiable` protocol.
 
-Here’s a simple example of a toast notification with a text element.
+Here’s a simple example of a toast notification with a text element:
 
 ```swift
 import Foundation
@@ -150,7 +156,8 @@ struct ToastNotification: Identifiable {
     let text: String
 }
 ```
-The following example demonstrates a simple example view for showing the notification. This view is not responsible for triggering the notification. This is done by the view below this example.
+The following example demonstrates a simple example view for showing the notification. This view is not responsible for
+triggering the notification. This is done by the view below this example.
 
 ```swift
 import SwiftUI
@@ -184,7 +191,7 @@ The following demonstrates a simple view triggering the toast notification.
 import SwiftUI
 import SimpleToast
 
-struct ExternalSecondView: View {
+struct ExampleSecondView: View {
     var body: some View {
         VStack {
             Text("External Second View")
@@ -204,11 +211,13 @@ struct ExternalSecondView: View {
 ```
 
 > [!IMPORTANT]
-> Ensure that the view displaying the toast notification is visible. If you use sheets or other full-screen content, you’ll need to handle the notification separately within them, as they will overlay all other views.
+> Ensure that the view displaying the toast notification is visible. If you use sheets or other full-screen content,
+> you'll need to handle the notification separately within them, as they will overlay all other views.
 
-## Usage with edgesIgnoringSafeArea(_:edges:) / ignoresSafeArea(_:edges:)
+## Usage with `edgesIgnoringSafeArea(_:edges:)` / `ignoresSafeArea(_:edges:)`
 
-If the view you're attaching the toast to is ignoring a safe area, make sure to apply the SimpleToast modifier **after** the modifier for ignoring the safe area:
+If the view you're attaching the toast to is ignoring a safe area, make sure to apply the SimpleToast modifier **after**
+the modifier for ignoring the safe area:
 
 ```swift
 VStack {
