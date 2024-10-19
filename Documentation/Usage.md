@@ -1,7 +1,7 @@
 # SimpleToast Usage
 
-There are different ways to attach a toast notification to your views. The basic usage is similar to well-known SwiftUI
-view modifiers (e.g., alert or sheet). If you are familiar with these, using SimpleToast will be very straightforward.
+There are various ways to attach a toast notification to your views. The basic usage is similar to popular SwiftUI view
+modifiers, such as alert or sheet. If you’re familiar with those, using SimpleToast will be straightforward.
 
 > [!NOTE]
 > The toast always appears at the edges of the view it is attached to. Ensure the view has enough space to render the
