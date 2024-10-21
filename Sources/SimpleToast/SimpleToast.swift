@@ -15,10 +15,10 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
     let options: SimpleToastOptions
     let onDismiss: (() -> Void)?
 
-    @State private var timer: Timer?
     @State private var offset: CGSize = .zero
     @State private var isInit = false
     @State private var viewState = false
+    @State private var cancelable: Cancellable?
 
     private let toastInnerContent: SimpleToastContent
 
@@ -118,18 +118,19 @@ struct SimpleToast<SimpleToastContent: View>: ViewModifier {
     /// Dismiss the sheet after the timeout specified in the options
     private func dismissAfterTimeout() {
         if let timeout = options.hideAfter, showToast, options.hideAfter != nil {
-            DispatchQueue.main.async { [self] in
-                timer?.invalidate()
-                timer = Timer.scheduledTimer(withTimeInterval: timeout, repeats: false, block: { _ in dismiss() })
-            }
+            cancelable = Timer.publish(every: timeout, on: .main, in: .common)
+                .autoconnect()
+                .sink { _ in
+                    cancelable?.cancel()
+                    dismiss()
+                }
         }
     }
 
     /// Dismiss the toast and reset all nessasary parameters
     private func dismiss() {
         withAnimation(options.animation) {
-            timer?.invalidate()
-            timer = nil
+            cancelable?.cancel()
             showToast = false
             viewState = false
             offset = .zero
