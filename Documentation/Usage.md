@@ -1,7 +1,7 @@
 # SimpleToast Usage
 
 There are various ways to attach a toast notification to your views. The basic usage is similar to popular SwiftUI view
-modifiers, such as alert or sheet. If you’re familiar with those, using SimpleToast will be straightforward.
+modifiers, such as alert or sheet. If you're familiar with those, using SimpleToast will be straightforward.
 
 > [!NOTE]
 > The toast always appears at the edges of the view it is attached to. Ensure the view has enough space to render the
@@ -55,9 +55,10 @@ struct ToastTestView: View {
 ## Attach via optional object
 
 You can trigger the toast via an instance to an optional object, which conforms to the protocol Identifiable. If the
-value is not nil the toast will be shown.
+value is not nil the toast will be shown. The `content` closure receives this object, allowing its data to be used in the toast.
 
 The following example is based on the previous one and also shows the toast, but this time based on a value on an item.
+The toast message will display a property from the `DummyItem`.
 
 ```swift
 import SwiftUI
@@ -67,6 +68,7 @@ struct ToastTestView: View {
     @State var showToast: DummyItem? = nil
 
     private struct DummyItem: Identifiable {
+        let id = UUID()
         var foo: String = "Bar"
     }
 
@@ -82,10 +84,10 @@ struct ToastTestView: View {
             }
         }
     }
-    .simpleToast(item: $showToast, options: toastOptions) {
+    .simpleToast(item: $showToast, options: toastOptions) { item in
         HStack {
             Image(systemName: "exclamationmark.triangle")
-            Text("This is some simple toast message.")
+            Text("Item foo: \(item.foo)")
         }
         .padding()
         .background(Color.red.opacity(0.8))
@@ -146,7 +148,7 @@ and display them in the details view.
 To use the `SimpleToastNotificationPublisher` for your toast notifications, you first need to create a data structure
 that conforms to the `Identifiable` protocol.
 
-Here’s a simple example of a toast notification with a text element:
+Here's a simple example of a toast notification with a text element:
 
 ```swift
 import Foundation
