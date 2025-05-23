@@ -9,14 +9,15 @@
 import SwiftUI
 
 /// Modifier for the scale animation
-struct SimpleToastScale: SimpleToastModifier {
-    @Binding var showToast: Bool
+struct SimpleToastScale<Item: Identifiable>: SimpleToastModifier {
+    @Binding var presentationState: PresentationState<Item>
+
     let options: SimpleToastOptions?
 
     func body(content: Content) -> some View {
         content
             .transition(AnyTransition.scale.animation(options?.animation ?? .linear))
-            .opacity(showToast ? 1 : 0)
+            .opacity(presentationState.isPresented ? 1 : 0)
             .zIndex(1)
     }
 }
