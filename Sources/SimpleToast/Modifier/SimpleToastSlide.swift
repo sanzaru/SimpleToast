@@ -9,8 +9,9 @@
 import SwiftUI
 
 /// Modifier foe the slide animation
-struct SimpleToastSlide: SimpleToastModifier {
-    @Binding var showToast: Bool
+struct SimpleToastSlide<Item: Identifiable>: SimpleToastModifier {
+    @Binding var presentationState: PresentationState<Item>
+
     let options: SimpleToastOptions?
 
     private var transitionEdge: Edge {

@@ -55,7 +55,7 @@ struct ToastTestView: View {
 ## Attach via optional object
 
 You can trigger the toast via an instance to an optional object, which conforms to the protocol Identifiable. If the
-value is not nil the toast will be shown.
+value is not nil the toast will be shown. The `content` closure receives this object, allowing its data to be used in the toast.
 
 The following example is based on the previous one and also shows the toast, but this time based on a value on an item.
 
@@ -67,6 +67,7 @@ struct ToastTestView: View {
     @State var showToast: DummyItem? = nil
 
     private struct DummyItem: Identifiable {
+        let id = UUID()
         var foo: String = "Bar"
     }
 
@@ -82,10 +83,10 @@ struct ToastTestView: View {
             }
         }
     }
-    .simpleToast(item: $showToast, options: toastOptions) {
+    .simpleToast(item: $showToast, options: toastOptions) { item in
         HStack {
             Image(systemName: "exclamationmark.triangle")
-            Text("This is some simple toast message.")
+            Text("Item foo: \(item.foo)")
         }
         .padding()
         .background(Color.red.opacity(0.8))
