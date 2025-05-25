@@ -22,6 +22,9 @@ You decide the content, the library takes care about the rest.
 
 > [!CAUTION]
 > 🚨 Breaking changes:
+> * **0.11.0:**
+>     * ```.simpleToast(item:, options:)``` is now passing an identifiable to the closure. Closures without capturing raise an error.
+>       See the [documentation](/Documentation/Usage.md) for more information.
 > * **0.6.0:**
 >     * The options struct is modified and the parameters `showBackdrop` and `backdropColor` are replaced by a single optional Color definition `backdrop`. See [Options](#options) for more information
 
