@@ -1,0 +1,79 @@
+name: Manual Unicode Audit (Main Branch)
+
+on:
+  # Allows the workflow to be manually triggered from the GitHub UI
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Target branch to audit (e.g., main or master)'
+        required: true
+        default: 'main'
+
+jobs:
+  audit_unicode:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch }} # Checkout the branch specified by the user
+
+      - name: 🔍 Scan All Files for Invisible Characters
+        id: unicode_scan
+        run: |
+          echo "--- Starting Unicode Audit on branch: ${{ github.event.inputs.branch }} ---"
+
+          # -----------------------------------------------------------
+          # 1. Define Invisible Unicode Characters to check for
+          # -----------------------------------------------------------
+          # This list includes the most common invisible and zero-width characters:
+          #
+          # 200B: ZERO WIDTH SPACE (ZWSP)
+          # 200C: ZERO WIDTH NON-JOINER (ZWNJ)
+          # 200D: ZERO WIDTH JOINER (ZWJ)
+          # FEFF: ZERO WIDTH NO-BREAK SPACE (ZWNBSP) / Byte Order Mark (BOM)
+          # 2060: WORD JOINER (WJ)
+          # 00AD: SOFT HYPHEN (SHY)
+          # 200E: LEFT-TO-RIGHT MARK (LRM)
+          # 200F: RIGHT-TO-LEFT MARK (RLM)
+          # 0000: NULL (NUL) - A tricky character, but often useful to catch
+          
+          # The regex pattern uses an 'or' group to match any of these characters
+          INVISIBLE_CHARS_REGEX="[\u200B\u200C\u200D\uFEFF\u2060\u00AD\u200E\u200F\u0000]"
+          
+          # -----------------------------------------------------------
+          # 2. Scan the entire repository, ignoring binary and git metadata
+          # -----------------------------------------------------------
+          
+          # Use grep to search for the regex pattern recursively in the current directory.
+          # -r: Recursive search
+          # -I: Skip binary files (important to avoid garbage output)
+          # -P: Use Perl-compatible regular expressions (needed for \uXXXX)
+          # -n: Display line number
+          # -H: Display file name
+          # -o: Only print the matching part of the line (the invisible character itself)
+          # --exclude-dir: Ignore the hidden .git directory and the workflow directory
+          
+          # Capture the output of grep in a variable
+          ERROR_OUTPUT=$(grep -rIPHno "$INVISIBLE_CHARS_REGEX" . \
+            --exclude-dir={.git,.github,node_modules} 2>&1 || true)
+          
+          # -----------------------------------------------------------
+          # 3. Report findings and fail if necessary
+          # -----------------------------------------------------------
+          
+          if [ -n "$ERROR_OUTPUT" ]; then
+            echo "---"
+            echo "❌ AUDIT FAILED: Invisible Unicode Characters found."
+            echo "Please remove the invisible characters from these locations:"
+            echo "---"
+            # Output the error log
+            echo "$ERROR_OUTPUT"
+            echo "---"
+            # Set the action status to failure
+            exit 1
+          else
+            echo "---"
+            echo "✅ AUDIT PASSED: No invisible Unicode characters found in the repository."
+            echo "---"
+          fi
