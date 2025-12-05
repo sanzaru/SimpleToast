@@ -1,4 +1,4 @@
-name: Manual Unicode Audit (Main Branch)
+name: Manual Unicode Audit (Master Branch)
 
 on:
   # Allows the workflow to be manually triggered from the GitHub UI
@@ -7,7 +7,7 @@ on:
       branch:
         description: 'Target branch to audit (e.g., main or master)'
         required: true
-        default: 'main'
+        default: 'master'
 
 jobs:
   audit_unicode:
