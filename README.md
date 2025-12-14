@@ -92,4 +92,4 @@ The toast can be configured via an optional SimpleToastOptions object. You can s
 | **modifierType** | [ModifierType](#Demo) | Defines the type of toast animation. Possible values: .slide, .fade | .fade |
 | **dismissOnTap** | [Bool?](https://developer.apple.com/documentation/swift/bool) | Defines if the toast closes on tap. Possible values: true, false | true |
 | **disableDragGesture** | [Bool](https://developer.apple.com/documentation/swift/bool) | Defines if the toast reacts to drag gestures. Possible values: true, false | false |
-| **displayMode** | SimpleToastDisplayMode | Defines the toast's content display mode. `.full` reserves the maximum horizontal and vertical space while `.inline` only reserves horizontal space. Possible values: .inline, .fill | .fill |
+| **displayMode** | SimpleToastDisplayMode | Defines the toast's content display mode. `.full` reserves the maximum horizontal and vertical space while `.inline` only reserves horizontal space. Possible values: .inline, .full | .inline |
