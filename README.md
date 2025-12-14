@@ -22,6 +22,8 @@ You decide the content, the library takes care about the rest.
 
 > [!CAUTION]
 > 🚨 Breaking changes:
+> * **0.12.0:**
+>     * The options struct now includes a new option to modify the display mode. The default is `.inline`, which only reserves horizontal space instead of reserving both (vertical, horizontal) spaces. You should check your implementation after the update and might need to set the `displayMode` option to `.full` in your `SimpleToastOptions`.
 > * **0.11.0:**
 >     * ```.simpleToast(item:, options:)``` is now passing an identifiable to the closure. Closures without capturing raise an error.
 >       See the [documentation](/Documentation/Usage.md) for more information.
@@ -90,3 +92,4 @@ The toast can be configured via an optional SimpleToastOptions object. You can s
 | **modifierType** | [ModifierType](#Demo) | Defines the type of toast animation. Possible values: .slide, .fade | .fade |
 | **dismissOnTap** | [Bool?](https://developer.apple.com/documentation/swift/bool) | Defines if the toast closes on tap. Possible values: true, false | true |
 | **disableDragGesture** | [Bool](https://developer.apple.com/documentation/swift/bool) | Defines if the toast reacts to drag gestures. Possible values: true, false | false |
+| **displayMode** | SimpleToastDisplayMode | Defines the toast's content display mode. `.full` reserves the maximum horizontal and vertical space while `.inline` only reserves horizontal space. Possible values: .inline, .full | .inline |

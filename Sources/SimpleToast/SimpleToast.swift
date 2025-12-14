@@ -76,7 +76,7 @@ struct SimpleToast<SimpleToastContent: View, Item: Identifiable>: ViewModifier {
     func body(content: Content) -> some View {
         // Main view content
         content
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .modifier(SimpleToastContentDisplayModeModifier(displayMode: options.displayMode))
 
             // Backdrop
             .overlay(
@@ -142,6 +142,21 @@ struct SimpleToast<SimpleToastContent: View, Item: Identifiable>: ViewModifier {
     private func dismissOnTap() {
         if options.dismissOnTap ?? true {
             self.dismiss()
+        }
+    }
+}
+
+// MARK: - Display mode modifier
+private struct SimpleToastContentDisplayModeModifier: ViewModifier {
+    let displayMode: SimpleToastDisplayMode
+
+    func body(content: Content) -> some View {
+        if case .full = displayMode {
+            content
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+        } else {
+            content
+                .frame(maxWidth: .infinity)
         }
     }
 }

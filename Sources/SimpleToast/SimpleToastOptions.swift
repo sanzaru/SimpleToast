@@ -46,6 +46,8 @@ public struct SimpleToastOptions {
     @available(swift, deprecated: 0.5.1, renamed: "backdrop")
     public var backdropColor: Color = Color.white
 
+    public var displayMode: SimpleToastDisplayMode
+
     public init(
         alignment: Alignment = .top,
         hideAfter: TimeInterval? = nil,
@@ -53,7 +55,8 @@ public struct SimpleToastOptions {
         animation: Animation = .linear,
         modifierType: ModifierType = .fade,
         dismissOnTap: Bool? = true,
-        disableDragGesture: Bool = false
+        disableDragGesture: Bool = false,
+        displayMode: SimpleToastDisplayMode = .inline
     ) {
         self.alignment = alignment
         self.hideAfter = hideAfter
@@ -62,6 +65,7 @@ public struct SimpleToastOptions {
         self.modifierType = modifierType
         self.dismissOnTap = dismissOnTap
         self.disableDragGesture = disableDragGesture
+        self.displayMode = displayMode
     }
 }
 
@@ -76,7 +80,8 @@ extension SimpleToastOptions {
         animation: Animation? = nil,
         modifierType: ModifierType = .fade,
         dismissOnTap: Bool? = true,
-        disableDragGesture: Bool = false
+        disableDragGesture: Bool = false,
+        displayMode: SimpleToastDisplayMode = .inline
     ) {
         self.alignment = alignment
         self.hideAfter = hideAfter
@@ -86,5 +91,6 @@ extension SimpleToastOptions {
         self.modifierType = modifierType
         self.dismissOnTap = dismissOnTap
         self.disableDragGesture = disableDragGesture
+        self.displayMode = displayMode
     }
 }
