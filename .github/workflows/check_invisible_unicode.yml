@@ -1,11 +1,10 @@
 name: Invisible Unicode Check
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [ master ]
   pull_request:
-    # Run the check on changes made to the PR branch
-    branches:
-      - main
+    branches: [ master ]
 
 jobs:
   check_unicode:
@@ -13,65 +12,44 @@ jobs:
     steps:
       - name: ⬇️ Checkout Repository
         uses: actions/checkout@v4
-        # We need to fetch the base branch for git diff to work correctly
         with:
           fetch-depth: 0
 
       - name: 🔍 Find and Check for Invisible Characters
         id: unicode_check
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # -----------------------------------------------------------
-          # 1. Define Invisible Unicode Characters to check for
-          # -----------------------------------------------------------
-          # This list includes the most common invisible and zero-width characters:
-          #
-          # 200B: ZERO WIDTH SPACE (ZWSP)
-          # 200C: ZERO WIDTH NON-JOINER (ZWNJ)
-          # 200D: ZERO WIDTH JOINER (ZWJ)
-          # FEFF: ZERO WIDTH NO-BREAK SPACE (ZWNBSP) / Byte Order Mark (BOM)
-          # 2060: WORD JOINER (WJ)
-          # 00AD: SOFT HYPHEN (SHY)
-          # 200E: LEFT-TO-RIGHT MARK (LRM)
-          # 200F: RIGHT-TO-LEFT MARK (RLM)
-          
-          INVISIBLE_CHARS_REGEX="[\u200B\u200C\u200D\uFEFF\u2060\u00AD\u200E\u200F]"
-          
-          # -----------------------------------------------------------
-          # 2. Get list of files changed in the Pull Request
-          # -----------------------------------------------------------
-          # Compare the current branch (HEAD) with the base branch (e.g., main/master)
-          # --diff-filter=A(dded)C(opied)M(odified)R(enamed)T(ype changed) - excludes D(eleted)
-          CHANGED_FILES=$(git diff --name-only --diff-filter=ACMRT ${{ github.base_ref }} ${{ github.sha }})
-          
-          if [ -z "$CHANGED_FILES" ]; then
+          # Define invisible Unicode characters to check for
+          INVISIBLE_CHARS=$(printf '\u200B\u200C\u200D\uFEFF\u2060\u00AD\u200E\u200F')
+
+          FILES_TO_CHECK=""
+
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            # Use the GH CLI to get changed files in the PR
+            gh pr checkout ${{ github.event.pull_request.number }}
+            FILES_TO_CHECK=$(gh pr diff ${{ github.event.pull_request.number }} --name-only | tr '\n' ' ')
+          else
+            # For push: diff from previous commit (event.before)
+            FILES_TO_CHECK=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+          fi
+
+          if [ -z "$FILES_TO_CHECK" ]; then
             echo "✅ No files changed, skipping check."
             exit 0
           fi
-          
-          echo "Files to check: $CHANGED_FILES"
-          
-          # -----------------------------------------------------------
-          # 3. Scan the changed files for invisible characters
-          # -----------------------------------------------------------
-          
-          # Use grep to search for the regex pattern in the changed files.
-          # -P: Use Perl-compatible regular expressions (needed for \uXXXX)
-          # -n: Display line number
-          # -H: Display file name
-          # -o: Only print the matching part of the line (the invisible character itself)
-          # -q: Quiet mode (suppress normal output)
-          # || true: Prevents the action from failing if grep returns a non-zero exit code (meaning no match found)
-          
-          # Capture the output of grep in a variable
-          ERROR_OUTPUT=$(echo "$CHANGED_FILES" | xargs grep -PHn "$INVISIBLE_CHARS_REGEX" 2>&1 || true)
-          
+
+          echo "Files to check: $FILES_TO_CHECK"
+
+          # Scan the files for invisible characters
+          ERROR_OUTPUT=$(echo "$FILES_TO_CHECK" | xargs grep -PHn "[$INVISIBLE_CHARS]" 2>&1 || true)
+
           if [ -n "$ERROR_OUTPUT" ]; then
             echo "❌ ERROR: Invisible Unicode Characters found in the following files/lines:"
             echo "---"
             echo "$ERROR_OUTPUT"
             echo "---"
             echo "Please remove the invisible characters (e.g., zero-width spaces) from these locations."
-            # Set the action status to failure
             exit 1
           else
             echo "✅ No invisible Unicode characters found in the changed files."
