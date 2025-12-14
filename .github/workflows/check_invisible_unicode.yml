@@ -21,7 +21,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Define invisible Unicode characters to check for
-          INVISIBLE_CHARS_REGEX="[\u200B\u200C\u200D\uFEFF\u2060\u00AD\u200E\u200F]"
+          INVISIBLE_CHARS=$(printf '\u200B\u200C\u200D\uFEFF\u2060\u00AD\u200E\u200F')
 
           FILES_TO_CHECK=""
 
@@ -42,7 +42,7 @@ jobs:
           echo "Files to check: $FILES_TO_CHECK"
 
           # Scan the files for invisible characters
-          ERROR_OUTPUT=$(echo "$FILES_TO_CHECK" | xargs grep -PHn "$INVISIBLE_CHARS_REGEX" 2>&1 || true)
+          ERROR_OUTPUT=$(echo "$FILES_TO_CHECK" | xargs grep -PHn "[$INVISIBLE_CHARS]" 2>&1 || true)
 
           if [ -n "$ERROR_OUTPUT" ]; then
             echo "❌ ERROR: Invisible Unicode Characters found in the following files/lines:"
