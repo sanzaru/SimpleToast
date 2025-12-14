@@ -1,11 +1,10 @@
 name: Invisible Unicode Check
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [ master ]
   pull_request:
-    # Run the check on changes made to the PR branch
-    branches:
-      - main
+    branches: [ master ]
 
 jobs:
   check_unicode:
