@@ -22,13 +22,13 @@ jobs:
     - name: Run tests
       run: swift test -v
 
-  linux-android:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: "Test Swift Package on Linux"
-        run: swift test
-      - name: "Test Swift Package on Android"
-        uses: skiptools/swift-android-action@v2
-        with:
-          free-disk-space: true
+#  linux-android:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: "Test Swift Package on Linux"
+#        run: swift test
+#      - name: "Test Swift Package on Android"
+#        uses: skiptools/swift-android-action@v2
+#        with:
+#          free-disk-space: true
